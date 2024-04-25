@@ -1,0 +1,34 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "realtimechatapp-f5d62",
+          "appId": "1:1039121463541:android:5cb306cf6dbe51c06a2dbc",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "realtimechatapp-f5d62",
+          "appId": "1:1039121463541:ios:fe89c5d4f6d850406a2dbc",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "realtimechatapp-f5d62",
+          "configurations": {
+            "android": "1:1039121463541:android:5cb306cf6dbe51c06a2dbc",
+            "ios": "1:1039121463541:ios:fe89c5d4f6d850406a2dbc"
+          }
+        }
+      }
+    }
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1039121463541",
+    "project_id": "realtimechatapp-f5d62",
+    "storage_bucket": "realtimechatapp-f5d62.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039121463541:android:5cb306cf6dbe51c06a2dbc",
+        "android_client_info": {
+          "package_name": "com.example.firebase_realtime_chat_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRlZfBpFNj62rknsR3s8pXSZpLNfBU398"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

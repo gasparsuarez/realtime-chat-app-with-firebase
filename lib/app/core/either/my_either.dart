@@ -1,0 +1,9 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'my_either.freezed.dart';
+
+@freezed
+abstract class Either<L, R> with _$Either<L, R> {
+  factory Either.left(L left) = _Left;
+  factory Either.right(R right) = _Right;
+}
