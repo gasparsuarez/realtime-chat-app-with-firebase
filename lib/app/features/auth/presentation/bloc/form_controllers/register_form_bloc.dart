@@ -51,6 +51,9 @@ class RegisterFormBloc {
     if (passwordController.text != repPasswordController.text) {
       return 'Passwords do not match';
     }
+    if (passwordController.text.length < 6) {
+      return 'Password must be a long';
+    }
     return null;
   }
 }

@@ -13,6 +13,9 @@ class AuthFailure with _$AuthFailure {
   factory AuthFailure.invalidEmail({
     @Default('Enter a valid email!') String message,
   }) = _InvalidEmail;
+  factory AuthFailure.userNotFound({
+    @Default('User not corresponding to the given email') String message,
+  }) = _UserNotFound;
   factory AuthFailure.unknown({
     @Default('Unknown error') String message,
   }) = _Unknown;

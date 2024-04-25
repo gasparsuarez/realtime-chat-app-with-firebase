@@ -76,6 +76,58 @@ void main() {
           );
         },
       );
+
+      test(
+        'signIn success should return user',
+        () async {
+          //Arrange
+          final user = UserEntity(
+            uid: 'uid',
+            name: 'name',
+            email: 'email',
+            lastName: 'lastName',
+            isOnline: 1,
+          );
+          when(mockAuthRepositoryImpl.signIn('', '')).thenAnswer(
+            (_) async => Either.right(user),
+          );
+          //Act
+          final result = await mockAuthRepositoryImpl.signIn('', '');
+          //Assert
+          expect(result.whenOrNull(right: (user) => user), isA<UserEntity>());
+        },
+      );
+
+      test(
+        'signIn without user data should return null',
+        () async {
+          //Arrange
+          when(mockAuthRepositoryImpl.signIn('', '')).thenAnswer(
+            (_) async => Either.right(null),
+          );
+          //Act
+          final result = await mockAuthRepositoryImpl.signIn('', '');
+          //Assert
+          expect(result.whenOrNull(right: (user) => user), null);
+        },
+      );
+
+      test(
+        'signIn should return AuthFailure',
+        () async {
+          //Arrange
+          when(mockAuthRepositoryImpl.signIn('', '')).thenAnswer(
+            (_) async => Either.left(AuthFailure.userNotFound()),
+          );
+          //Act
+          final result = await mockAuthRepositoryImpl.signIn('', '');
+          //Assert
+          expect(
+            result.whenOrNull(left: (failure) => failure),
+            isA<AuthFailure>(),
+          );
+        },
+      );
     },
   );
 }

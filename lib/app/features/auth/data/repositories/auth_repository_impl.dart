@@ -20,10 +20,29 @@ class AuthRepositoryImpl implements AuthRepository {
             isOnline: 1,
           );
 
-          await firestore.collection('users').add(userData.toJson());
+          await firestore.collection('users').doc(credential.user!.uid).set(userData.toJson());
         },
       );
       return Either.right('The user has been created successfully');
+    } on FirebaseAuthException catch (e) {
+      return Either.left(
+        parseCodeToFailure(e.code),
+      );
+    }
+  }
+
+  @override
+  Future<Either<AuthFailure, UserEntity?>> signIn(String email, String password) async {
+    try {
+      UserEntity? user;
+      await instance.signInWithEmailAndPassword(email: email, password: password).then(
+        (credential) async {
+          final snapshot = await firestore.collection('users').doc(credential.user!.uid).get();
+          user = UserEntity.fromJson(snapshot.data()!);
+          return Either.right(user!);
+        },
+      );
+      return Either.right(null);
     } on FirebaseAuthException catch (e) {
       return Either.left(
         parseCodeToFailure(e.code),

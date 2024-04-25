@@ -61,6 +61,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Input(
                       controller: form.passwordController,
                       labelText: 'Password',
+                      obscureText: true,
                     ),
                     SizedBox(
                       height: context.h * 0.02,
@@ -68,6 +69,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Input(
                       controller: form.repPasswordController,
                       labelText: 'Repeat password',
+                      obscureText: true,
                     ),
                     SizedBox(
                       height: context.h * 0.06,
@@ -108,12 +110,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   /// Validate forms
                                   final validationMessage = form.validateForm();
                                   if (validationMessage != null) {
-                                    AlertUtil(context).showAlert(
+                                    return AlertUtil(context).showAlert(
                                       title: 'Error',
                                       description: validationMessage,
                                       type: ToastificationType.error,
                                     );
-                                    return;
                                   }
 
                                   /// Send DTO for execute register
