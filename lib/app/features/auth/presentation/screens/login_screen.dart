@@ -13,7 +13,9 @@ class LoginScreen extends StatelessWidget {
       subtitle: 'Enter email and password',
       child: SliverList(
         delegate: SliverChildBuilderDelegate(
-          (context, index) => null,
+          (context, index) => Column(
+            children: [],
+          ),
           childCount: 1,
         ),
       ),
