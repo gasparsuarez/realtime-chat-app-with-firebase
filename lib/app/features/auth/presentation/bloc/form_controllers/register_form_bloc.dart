@@ -19,7 +19,21 @@ class RegisterFormBloc {
         lastName: lastNameController.text,
       );
 
+  ///
+  /// Formkey for manage form states
+  ///
   final formKey = GlobalKey<FormState>();
+
+  ///
+  /// Clear all controllers
+  ///
+  void clearForm() {
+    nameController.clear();
+    emailController.clear();
+    passwordController.clear();
+    lastNameController.clear();
+    repPasswordController.clear();
+  }
 
   String? validateForm() {
     formKey.currentState!.validate();

@@ -1,15 +1,19 @@
 import 'package:firebase_realtime_chat_app/app/core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:toastification/toastification.dart';
 
-///
-/// Show Alert
-///
-/// Toastification Types: Info, success, error, warning
-///
 class AlertUtil {
-  static showAlert(
-    BuildContext context, {
+  final BuildContext context;
+
+  AlertUtil(this.context);
+
+  ///
+  /// Show Alert
+  ///
+  /// Toastification Types: Info, success, error, warning
+  ///
+  showAlert({
     required String title,
     required String description,
     ToastificationType? type,
@@ -18,7 +22,7 @@ class AlertUtil {
       context: context,
       type: type ?? ToastificationType.success,
       autoCloseDuration: const Duration(
-        seconds: 5,
+        seconds: 4,
       ),
       title: CustomText(
         text: title,
@@ -30,4 +34,25 @@ class AlertUtil {
       ),
     );
   }
+
+  ///
+  /// Show dialog with circular progress indicator
+  ///
+  showLoader() {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: SizedBox(
+            height: context.h * 0.1,
+            child: const Center(
+              child: CircularProgressIndicator(),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void hideAlert() => context.pop();
 }

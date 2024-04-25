@@ -75,20 +75,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     BlocConsumer<RegisterUserCubit, RegisterUserState>(
                       listener: (context, state) {
                         switch (state) {
+                          case Loading():
+                            AlertUtil(context).showLoader();
+                            break;
                           case Loaded(message: final message):
-                            AlertUtil.showAlert(
-                              context,
+                            AlertUtil(context).hideAlert();
+                            AlertUtil(context).showAlert(
                               title: 'Success',
                               description: message,
                             );
+                            // Reset form state
+                            form.formKey.currentState?.reset();
+                            form.clearForm();
+
                             break;
                           case Error(message: final message):
-                            AlertUtil.showAlert(
-                              context,
+                            AlertUtil(context).hideAlert();
+                            AlertUtil(context).showAlert(
                               title: 'Error',
                               description: message,
                               type: ToastificationType.error,
                             );
+                            break;
                           default:
                         }
                       },
@@ -100,8 +108,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   /// Validate forms
                                   final validationMessage = form.validateForm();
                                   if (validationMessage != null) {
-                                    AlertUtil.showAlert(
-                                      context,
+                                    AlertUtil(context).showAlert(
                                       title: 'Error',
                                       description: validationMessage,
                                       type: ToastificationType.error,

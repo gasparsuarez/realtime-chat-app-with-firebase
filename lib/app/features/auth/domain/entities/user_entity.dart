@@ -22,6 +22,7 @@ class UserEntity {
       );
 
   toJson() => {
+        'uid': uid,
         'name': name,
         'email': email,
         'lastName': lastName,
