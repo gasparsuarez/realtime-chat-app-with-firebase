@@ -16,9 +16,12 @@ migrate_working_dir/
 *.iws
 .idea/
 
-
-firebase_options.dart
+# Generated files
 *.freezed.dart
+
+GoogleService-Info.plist
+google-services.json
+firebase_options.dart
 
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
