@@ -9,13 +9,14 @@ I am building chat app using firebase, clean architecture with vertical slicing 
 - flutter
 - firebase_auth
 - cloud_firestore
+- freezed 
 - flutter_bloc [State Management]
 - get_It [Dependency Injection]
 - go_router [App routing]
 - build_runner [Code generation]
-- freezed
 
 **Testing** 
-
+- Mockito [With code generation]
+- Bloc_test 
 
 

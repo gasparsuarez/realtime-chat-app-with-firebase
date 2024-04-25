@@ -6,7 +6,7 @@ final sl = GetIt.instance;
 
 class ServiceLocator {
   ServiceLocator._();
-  void setup() {
+  static void setup() {
     /// Repositories
     sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl());
 

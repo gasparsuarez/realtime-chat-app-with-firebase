@@ -18,7 +18,7 @@ class AlertUtil {
       context: context,
       type: type ?? ToastificationType.success,
       autoCloseDuration: const Duration(
-        seconds: 4,
+        seconds: 5,
       ),
       title: CustomText(
         text: title,

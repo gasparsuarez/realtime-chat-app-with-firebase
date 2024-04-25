@@ -4,6 +4,6 @@ part 'my_either.freezed.dart';
 
 @freezed
 abstract class Either<L, R> with _$Either<L, R> {
-  factory Either.left(L left) = _Left;
-  factory Either.right(R right) = _Right;
+  factory Either.left(L left) = Left;
+  factory Either.right(R right) = Right;
 }

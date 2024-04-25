@@ -18,6 +18,7 @@ migrate_working_dir/
 
 # Generated files
 *.freezed.dart
+*.mocks.dart
 
 GoogleService-Info.plist
 google-services.json
