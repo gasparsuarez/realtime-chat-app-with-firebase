@@ -94,7 +94,14 @@ void main() {
           //Act
           final result = await mockAuthRepositoryImpl.signIn('', '');
           //Assert
-          expect(result.whenOrNull(right: (user) => user), isA<UserEntity>());
+          expect(
+            result.whenOrNull(right: (user) => user),
+            isA<UserEntity>(),
+          );
+          expect(
+            result.whenOrNull(right: (user) => user),
+            user,
+          );
         },
       );
 
@@ -116,8 +123,9 @@ void main() {
         'signIn should return AuthFailure',
         () async {
           //Arrange
+          final failure = AuthFailure.userNotFound();
           when(mockAuthRepositoryImpl.signIn('', '')).thenAnswer(
-            (_) async => Either.left(AuthFailure.userNotFound()),
+            (_) async => Either.left(failure),
           );
           //Act
           final result = await mockAuthRepositoryImpl.signIn('', '');
@@ -125,6 +133,10 @@ void main() {
           expect(
             result.whenOrNull(left: (failure) => failure),
             isA<AuthFailure>(),
+          );
+          expect(
+            result.whenOrNull(left: (failure) => failure),
+            failure,
           );
         },
       );

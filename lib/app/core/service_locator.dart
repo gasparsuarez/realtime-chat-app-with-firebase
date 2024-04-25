@@ -23,10 +23,14 @@ class ServiceLocator {
     ///
     //* Auth
     sl.registerLazySingleton<UserRegisterUsecase>(() => UserRegisterUsecase(sl()));
+    sl.registerLazySingleton<UserSigninUsecase>(() => UserSigninUsecase(sl()));
+
     //* Global
     sl.registerLazySingleton<ListenAuthUsecase>(() => ListenAuthUsecase(sl()));
 
-    // blocs
+    ///
+    /// blocs
+    ///
 
     sl.registerLazySingleton<AuthCubit>(() => AuthCubit(sl()));
   }
