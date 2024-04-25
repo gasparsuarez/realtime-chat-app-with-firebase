@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'auth_failure.freezed.dart';
 
 @freezed
-abstract class AuthFailure with _$AuthFailure {
+class AuthFailure with _$AuthFailure {
   factory AuthFailure.emailAlreadyUsed({
     @Default('Email is already used!') String message,
   }) = _EmailAlreadyUsed;

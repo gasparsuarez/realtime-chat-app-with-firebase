@@ -50,7 +50,6 @@ class StartScreen extends StatelessWidget {
                     ),
                     Button(
                       onTap: () => context.pushNamed(LoginScreen.routeName),
-                      height: context.h * 0.046,
                       child: const CustomText(
                         text: 'Login',
                       ),
@@ -60,7 +59,6 @@ class StartScreen extends StatelessWidget {
                     ),
                     Button(
                       onTap: () => context.pushNamed(RegisterScreen.routeName),
-                      height: context.h * 0.046,
                       child: const CustomText(
                         text: 'Register',
                       ),

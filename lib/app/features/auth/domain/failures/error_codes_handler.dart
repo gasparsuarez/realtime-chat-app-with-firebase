@@ -7,7 +7,7 @@ AuthFailure parseCodeToFailure(String code) {
     case 'wrong-password':
       return AuthFailure.wrongPassword();
     case 'invalid-email':
-      return AuthFailure.wrongPassword();
+      return AuthFailure.invalidEmail();
     default:
       return AuthFailure.unknown();
   }
