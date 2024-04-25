@@ -29,11 +29,11 @@ class Button extends StatelessWidget {
               0,
               2,
             ),
-            blurRadius: 4,
+            blurRadius: 6,
           )
         ],
         borderRadius: BorderRadius.circular(
-          context.w * 0.026,
+          context.w * 0.04,
         ),
       ),
       child: MaterialButton(
