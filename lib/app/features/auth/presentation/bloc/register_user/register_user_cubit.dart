@@ -1,4 +1,5 @@
 import 'package:firebase_realtime_chat_app/app/core/core.dart';
+import 'package:firebase_realtime_chat_app/app/features/auth/data/data.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -10,10 +11,10 @@ class RegisterUserCubit extends Cubit<RegisterUserState> {
   final UserRegisterUsecase _useCase;
   RegisterUserCubit(this._useCase) : super(const RegisterUserState.initial());
 
-  void register(CreateUserDto dto) async {
+  void register(UserModel model) async {
     emit(const RegisterUserState.loading());
 
-    final result = await _useCase.call(dto);
+    final result = await _useCase.call(model);
 
     switch (result) {
       case Right():

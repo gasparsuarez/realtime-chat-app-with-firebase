@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_realtime_chat_app/app/features/auth/data/datasources/firebase_datasource_impl.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart';
 import 'package:firebase_realtime_chat_app/app/features/global/data/data.dart';
@@ -11,12 +14,23 @@ class ServiceLocator {
   ServiceLocator._();
   static void setup() {
     ///
+    /// Services
+    ///
+    sl.registerSingleton<FirebaseAuth>(FirebaseAuth.instance);
+    sl.registerSingleton<FirebaseFirestore>(FirebaseFirestore.instance);
+
+    ///
     /// Repositories
     ///
     //* Auth
-    sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl());
+    sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(sl()));
     //* Global
     sl.registerLazySingleton<AuthStateRepository>(() => AuthStateRepositoryImpl());
+
+    ///
+    /// Datasources
+    ///
+    sl.registerLazySingleton<AuthDatasource>(() => FirebaseDatasourceImpl(sl(), sl()));
 
     ///
     /// Use cases

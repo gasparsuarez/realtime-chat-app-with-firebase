@@ -1,17 +1,19 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_realtime_chat_app/app/core/core.dart';
-import 'package:firebase_realtime_chat_app/app/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:firebase_realtime_chat_app/app/features/auth/data/data.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-@GenerateNiceMocks([MockSpec<AuthRepositoryImpl>()])
+@GenerateNiceMocks([MockSpec<FirebaseDatasourceImpl>()])
 import 'auth_repository_impl_test.mocks.dart';
 
 void main() {
-  late MockAuthRepositoryImpl mockAuthRepositoryImpl;
+  late AuthRepositoryImpl authRepositoryImpl;
+  late MockAuthDatasourceImpl datasource;
 
-  final dto = CreateUserDto(
+  final model = UserModel(
     name: 'name',
     email: 'email',
     password: 'password',
@@ -20,7 +22,8 @@ void main() {
 
   setUp(
     () {
-      mockAuthRepositoryImpl = MockAuthRepositoryImpl();
+      datasource = MockAuthDatasourceImpl();
+      authRepositoryImpl = AuthRepositoryImpl(datasource);
     },
   );
 
@@ -33,12 +36,12 @@ void main() {
           const successMessage = 'The user has been created successfully';
 
           //Arrange
-          when(mockAuthRepositoryImpl.createUser(any)).thenAnswer(
+          when(authRepositoryImpl.createUser(model)).thenAnswer(
             (_) async => Either.right(successMessage),
           );
 
           //Act
-          final result = await mockAuthRepositoryImpl.createUser(dto);
+          final result = await authRepositoryImpl.createUser(model);
 
           //Assert
           expect(
@@ -58,13 +61,10 @@ void main() {
           //Arrange
           final failure = AuthFailure.invalidEmail();
 
-          when(mockAuthRepositoryImpl.createUser(any)).thenAnswer(
-            (_) async => Either.left(
-              failure,
-            ),
-          );
+          when(datasource.createUser(model))
+              .thenThrow(FirebaseAuthException(code: 'invalid-email'));
           //Act
-          final result = await mockAuthRepositoryImpl.createUser(dto);
+          final result = await authRepositoryImpl.createUser(model);
 
           //Assert
           expect(
@@ -82,26 +82,24 @@ void main() {
         'signIn should return user when is success',
         () async {
           //Arrange
-          final user = UserEntity(
+          final user = UserModel(
             uid: 'uid',
             name: 'name',
             email: 'email',
             lastName: 'lastName',
             isOnline: 1,
           );
-          when(mockAuthRepositoryImpl.signIn('', '')).thenAnswer(
-            (_) async => Either.right(user),
+
+          when(datasource.signIn('', '')).thenAnswer(
+            (_) async => user,
           );
+
           //Act
-          final result = await mockAuthRepositoryImpl.signIn('', '');
+          final result = await authRepositoryImpl.signIn('', '');
           //Assert
           expect(
             result.whenOrNull(right: (user) => user),
             isA<UserEntity>(),
-          );
-          expect(
-            result.whenOrNull(right: (user) => user),
-            user,
           );
         },
       );
@@ -110,12 +108,12 @@ void main() {
         'signIn should return AuthFailure',
         () async {
           //Arrange
-          final failure = AuthFailure.userNotFound();
-          when(mockAuthRepositoryImpl.signIn('', '')).thenAnswer(
-            (_) async => Either.left(failure),
-          );
+          final failure = AuthFailure.unknown();
+          when(datasource.signIn('', '')).thenThrow(FirebaseAuthException(code: ''));
+
           //Act
-          final result = await mockAuthRepositoryImpl.signIn('', '');
+          final result = await authRepositoryImpl.signIn('', '');
+
           //Assert
           expect(
             result.whenOrNull(left: (failure) => failure),

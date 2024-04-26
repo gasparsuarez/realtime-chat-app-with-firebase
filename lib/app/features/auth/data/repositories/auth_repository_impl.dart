@@ -1,28 +1,18 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_realtime_chat_app/app/core/core.dart';
+import 'package:firebase_realtime_chat_app/app/features/auth/data/data.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  final instance = FirebaseAuth.instance;
-  final firestore = FirebaseFirestore.instance;
+  final AuthDatasource _datasource;
+
+  // Dependency Injection
+  AuthRepositoryImpl(this._datasource);
 
   @override
-  Future<Either<AuthFailure, String>> createUser(CreateUserDto dto) async {
+  Future<Either<AuthFailure, String>> createUser(UserModel model) async {
     try {
-      await instance.createUserWithEmailAndPassword(email: dto.email, password: dto.password).then(
-        (credential) async {
-          final userData = UserEntity(
-            uid: credential.user!.uid,
-            name: dto.name,
-            email: dto.email,
-            lastName: dto.lastName,
-            isOnline: 1,
-          );
-
-          await firestore.collection('users').doc(credential.user!.uid).set(userData.toJson());
-        },
-      );
+      await _datasource.createUser(model);
       return Either.right('The user has been created successfully');
     } on FirebaseAuthException catch (e) {
       return Either.left(
@@ -34,14 +24,9 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<AuthFailure, UserEntity>> signIn(String email, String password) async {
     try {
-      UserEntity? user;
-      await instance.signInWithEmailAndPassword(email: email, password: password).then(
-        (credential) async {
-          final snapshot = await firestore.collection('users').doc(credential.user!.uid).get();
-          user = UserEntity.fromJson(snapshot.data()!);
-        },
-      );
-      return Either.right(user!);
+      final userModel = await _datasource.signIn(email, password);
+      final userEntity = UserModel.modelToUser(userModel);
+      return Either.right(userEntity);
     } on FirebaseAuthException catch (e) {
       return Either.left(
         parseCodeToFailure(e.code),
@@ -52,7 +37,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<AuthFailure, bool>> signOut() async {
     try {
-      await instance.signOut();
+      await _datasource.signOut();
       return Either.right(true);
     } catch (e) {
       return Either.left(AuthFailure.unknown());

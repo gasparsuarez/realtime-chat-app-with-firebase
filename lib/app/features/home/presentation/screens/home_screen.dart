@@ -1,5 +1,7 @@
 import 'package:firebase_realtime_chat_app/app/core/core.dart';
+import 'package:firebase_realtime_chat_app/app/features/global/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -13,9 +15,13 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         actions: [
-          TextButton(
-            onPressed: () {},
-            child: const Text('Sign Out'),
+          BlocBuilder<AuthCubit, AuthState>(
+            builder: (context, state) {
+              return TextButton(
+                onPressed: () => context.read<AuthCubit>().signOut(),
+                child: const Text('Sign Out'),
+              );
+            },
           )
         ],
         title: const Text(

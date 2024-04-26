@@ -59,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           case Loaded(user: final user):
                             AlertUtil(context).showAlert(
                               title: 'Welcome!',
-                              description: 'Welcome to my app ${user.name}',
+                              description: 'Welcome ${user.name}',
                             );
                           case Error(message: final message):
                             AlertUtil(context).showAlert(

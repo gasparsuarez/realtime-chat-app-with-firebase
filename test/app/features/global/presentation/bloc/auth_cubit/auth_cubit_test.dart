@@ -46,11 +46,12 @@ void main() {
         );
         return authCubit;
       },
+      wait: const Duration(seconds: 1),
       act: (cubit) => cubit.listenAuthState(),
       expect: () => [
         AuthState(
           state: AuthStates.authenticated(),
-        )
+        ),
       ],
     );
 

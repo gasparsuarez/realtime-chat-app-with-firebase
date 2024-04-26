@@ -118,7 +118,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   }
 
                                   /// Send DTO for execute register
-                                  context.read<RegisterUserCubit>().register(form.userDto);
+                                  context.read<RegisterUserCubit>().register(form.userModel);
                                 },
                           child: const CustomText(
                             text: 'Register',

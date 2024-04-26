@@ -1,5 +1,5 @@
 import 'package:firebase_realtime_chat_app/app/core/core.dart';
-import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart';
+import 'package:firebase_realtime_chat_app/app/features/auth/data/data.dart';
 import 'package:flutter/material.dart';
 
 class RegisterFormBloc {
@@ -10,9 +10,9 @@ class RegisterFormBloc {
   final repPasswordController = TextEditingController();
 
   ///
-  ///  Return DTO with user data
+  ///  Return user model
   ///
-  CreateUserDto get userDto => CreateUserDto(
+  UserModel get userModel => UserModel(
         name: nameController.text,
         email: emailController.text,
         password: passwordController.text,

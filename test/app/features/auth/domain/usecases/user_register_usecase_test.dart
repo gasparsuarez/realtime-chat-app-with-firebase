@@ -1,5 +1,5 @@
 import 'package:firebase_realtime_chat_app/app/core/core.dart';
-import 'package:firebase_realtime_chat_app/app/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:firebase_realtime_chat_app/app/features/auth/data/data.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -22,7 +22,7 @@ void main() {
   group(
     'User Register Usecase',
     () {
-      final dto = CreateUserDto(
+      final dto = UserModel(
         name: 'name',
         email: 'email',
         password: 'password',

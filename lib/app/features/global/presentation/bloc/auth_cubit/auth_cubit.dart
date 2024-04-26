@@ -45,8 +45,9 @@ class AuthCubit extends Cubit<AuthState> {
   ///
   void listenAuthState() {
     _streamSubscription = _listenAuthUsecase.call().listen(
-      (user) {
+      (user) async {
         if (user != null) {
+          await Future.delayed(const Duration(seconds: 1));
           emit(state.copyWith(state: AuthStates.authenticated()));
         } else {
           emit(AuthState(state: AuthStates.unauthenticated(), user: null));
