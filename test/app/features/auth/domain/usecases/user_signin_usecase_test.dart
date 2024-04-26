@@ -9,11 +9,13 @@ import 'package:mockito/mockito.dart';
 import 'user_signin_usecase_test.mocks.dart';
 
 void main() {
+  late UserSigninUsecase userSigninUsecase;
   late MockAuthRepositoryImpl repository;
 
   setUp(
     () {
       repository = MockAuthRepositoryImpl();
+      userSigninUsecase = UserSigninUsecase(repository);
     },
   );
   group(
@@ -29,11 +31,11 @@ void main() {
           isOnline: 1,
         );
 
-        when(repository.signIn(any, any)).thenAnswer(
+        when(userSigninUsecase.call('', '')).thenAnswer(
           (_) async => Either.right(user),
         );
         //Act
-        final result = await repository.signIn('', '');
+        final result = await userSigninUsecase.call('', '');
         //Assert
         expect(
           result.whenOrNull(right: (user) => user),
@@ -50,11 +52,11 @@ void main() {
         () async {
           //Arrange
           final failure = AuthFailure.userNotFound();
-          when(repository.signIn(any, any)).thenAnswer(
+          when(userSigninUsecase.call('', '')).thenAnswer(
             (_) async => Either.left(failure),
           );
           //Act
-          final result = await repository.signIn('email', 'password');
+          final result = await userSigninUsecase.call('', '');
 
           //Assert
           expect(

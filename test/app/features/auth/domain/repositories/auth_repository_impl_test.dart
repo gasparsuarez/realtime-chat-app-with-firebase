@@ -6,7 +6,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 @GenerateNiceMocks([MockSpec<AuthRepositoryImpl>()])
-import 'auth_repository_test.mocks.dart';
+import 'auth_repository_impl_test.mocks.dart';
 
 void main() {
   group(
