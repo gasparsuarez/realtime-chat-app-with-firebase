@@ -25,7 +25,7 @@ class SigninUserCubit extends Cubit<SigninUserState> {
         emit(SigninUserState.error(result.left.message));
         break;
       case Right():
-        emit(SigninUserState.loaded(result.right!));
+        emit(SigninUserState.loaded(result.right));
         break;
       default:
         null;

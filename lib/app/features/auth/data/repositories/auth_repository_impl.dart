@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_realtime_chat_app/app/core/either/my_either.dart';
+import 'package:firebase_realtime_chat_app/app/core/core.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -32,21 +32,30 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<AuthFailure, UserEntity?>> signIn(String email, String password) async {
+  Future<Either<AuthFailure, UserEntity>> signIn(String email, String password) async {
     try {
       UserEntity? user;
       await instance.signInWithEmailAndPassword(email: email, password: password).then(
         (credential) async {
           final snapshot = await firestore.collection('users').doc(credential.user!.uid).get();
           user = UserEntity.fromJson(snapshot.data()!);
-          return Either.right(user!);
         },
       );
-      return Either.right(null);
+      return Either.right(user!);
     } on FirebaseAuthException catch (e) {
       return Either.left(
         parseCodeToFailure(e.code),
       );
+    }
+  }
+
+  @override
+  Future<Either<AuthFailure, bool>> signOut() async {
+    try {
+      await instance.signOut();
+      return Either.right(true);
+    } catch (e) {
+      return Either.left(AuthFailure.unknown());
     }
   }
 }

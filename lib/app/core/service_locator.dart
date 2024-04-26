@@ -24,6 +24,7 @@ class ServiceLocator {
     //* Auth
     sl.registerLazySingleton<UserRegisterUsecase>(() => UserRegisterUsecase(sl()));
     sl.registerLazySingleton<UserSigninUsecase>(() => UserSigninUsecase(sl()));
+    sl.registerLazySingleton<UserSignoutUsecase>(() => UserSignoutUsecase(sl()));
 
     //* Global
     sl.registerLazySingleton<ListenAuthUsecase>(() => ListenAuthUsecase(sl()));

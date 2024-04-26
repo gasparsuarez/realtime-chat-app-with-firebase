@@ -8,6 +8,10 @@ AuthFailure parseCodeToFailure(String code) {
       return AuthFailure.wrongPassword();
     case 'invalid-email':
       return AuthFailure.invalidEmail();
+    case 'user-not-found':
+      return AuthFailure.userNotFound();
+    case 'invalid-credential':
+      return AuthFailure.invalidCredential();
     default:
       return AuthFailure.unknown();
   }

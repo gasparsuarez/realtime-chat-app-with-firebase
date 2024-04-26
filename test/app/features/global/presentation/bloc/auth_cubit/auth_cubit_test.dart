@@ -1,5 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart';
+import 'package:firebase_realtime_chat_app/app/features/auth/domain/entities/entities.dart';
 import 'package:firebase_realtime_chat_app/app/features/global/domain/domain.dart';
 import 'package:firebase_realtime_chat_app/app/features/global/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -15,9 +17,11 @@ import 'auth_cubit_test.mocks.dart';
 void main() {
   late AuthCubit authCubit;
   late MockListenAuthUsecase useCase;
+  late MockUser mockUser;
 
   setUp(() {
     useCase = MockListenAuthUsecase();
+    mockUser = MockUser();
     authCubit = AuthCubit(useCase);
   });
 
@@ -31,7 +35,7 @@ void main() {
       build: () {
         when(useCase.call()).thenAnswer(
           (_) => Stream.fromIterable([
-            MockUser(),
+            mockUser,
           ]),
         );
         return authCubit;
@@ -59,6 +63,56 @@ void main() {
         AuthState(
           state: AuthStates.unauthenticated(),
         )
+      ],
+    );
+
+    blocTest<AuthCubit, AuthState>(
+      'should set null user when clearState is called',
+      build: () => authCubit,
+      seed: () {
+        final userEntity = UserEntity(
+          uid: 'uid',
+          name: 'name',
+          email: 'email',
+          lastName: 'lastName',
+          isOnline: 1,
+        );
+        return AuthState(user: userEntity);
+      },
+      act: (cubit) => cubit.clearState(),
+      expect: () => [
+        const AuthState(
+          user: null,
+        ),
+      ],
+    );
+
+    final user = UserEntity(
+      uid: 'uid',
+      name: 'name',
+      email: 'email',
+      lastName: 'lastName',
+      isOnline: 1,
+    );
+    blocTest<AuthCubit, AuthState>(
+      'Should set user in state when setUserInState is called',
+      build: () => authCubit,
+      seed: () => AuthState(
+        user: UserEntity(
+          uid: 'uid_',
+          name: 'name_',
+          email: 'email_',
+          lastName: 'lastName_',
+          isOnline: 2,
+        ),
+        state: AuthStates.authenticated(),
+      ),
+      act: (cubit) => cubit.setUserInState(user),
+      expect: () => [
+        AuthState(
+          user: user,
+          state: AuthStates.authenticated(),
+        ),
       ],
     );
   });

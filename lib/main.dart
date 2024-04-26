@@ -1,6 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_realtime_chat_app/app/core/core.dart';
+import 'package:firebase_realtime_chat_app/app/features/auth/presentation/screens/screens.dart';
+import 'package:firebase_realtime_chat_app/app/features/global/domain/domain.dart';
 import 'package:firebase_realtime_chat_app/app/features/global/presentation/bloc/auth_cubit/auth_cubit.dart';
+import 'package:firebase_realtime_chat_app/app/features/home/presentation/screens/screens.dart';
 import 'package:firebase_realtime_chat_app/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,7 +24,19 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => sl.get<AuthCubit>()..listenAuthState(),
-      child: BlocBuilder<AuthCubit, AuthState>(
+      child: BlocConsumer<AuthCubit, AuthState>(
+        listener: (context, state) {
+          switch (state.state) {
+            case Authenticated():
+              AppRouter.appRoutes.goNamed(HomeScreen.routeName);
+              break;
+            case Unauthenticated():
+              AppRouter.appRoutes.goNamed(StartScreen.routeName);
+              break;
+            default:
+              AppRouter.appRoutes.goNamed(StartScreen.routeName);
+          }
+        },
         builder: (context, state) {
           return MaterialApp.router(
             debugShowCheckedModeBanner: false,

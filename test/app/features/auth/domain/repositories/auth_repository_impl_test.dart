@@ -106,20 +106,6 @@ void main() {
       );
 
       test(
-        'signIn without user data should return null',
-        () async {
-          //Arrange
-          when(mockAuthRepositoryImpl.signIn('', '')).thenAnswer(
-            (_) async => Either.right(null),
-          );
-          //Act
-          final result = await mockAuthRepositoryImpl.signIn('', '');
-          //Assert
-          expect(result.whenOrNull(right: (user) => user), null);
-        },
-      );
-
-      test(
         'signIn should return AuthFailure',
         () async {
           //Arrange

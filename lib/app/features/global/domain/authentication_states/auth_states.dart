@@ -4,6 +4,6 @@ part 'auth_states.freezed.dart';
 
 @freezed
 sealed class AuthStates with _$AuthStates {
-  factory AuthStates.authenticated() = _Authenticated;
-  factory AuthStates.unauthenticated() = _Unauthenticated;
+  factory AuthStates.authenticated() = Authenticated;
+  factory AuthStates.unauthenticated() = Unauthenticated;
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart';
 import 'package:firebase_realtime_chat_app/app/features/global/domain/domain.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -13,15 +14,29 @@ class AuthCubit extends Cubit<AuthState> {
   AuthCubit(this._useCase) : super(const AuthState());
 
   ///
-  /// Listen authentication status of user
+  /// Set user data in state
+  ///
+  void setUserInState(UserEntity user) {
+    emit(state.copyWith(user: user));
+  }
+
+  ///
+  /// Clear State
+  ///
+  void clearState() {
+    emit(state.copyWith(user: null));
+  }
+
+  ///
+  /// Listen authentication status
   ///
   void listenAuthState() {
     _streamSubscription = _useCase.call().listen(
       (user) {
         if (user != null) {
-          emit(AuthState(state: AuthStates.authenticated()));
+          emit(state.copyWith(state: AuthStates.authenticated()));
         } else {
-          emit(AuthState(state: AuthStates.unauthenticated()));
+          emit(AuthState(state: AuthStates.unauthenticated(), user: null));
         }
       },
     );
@@ -29,7 +44,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   @override
   Future<void> close() {
-    _streamSubscription!.cancel();
+    _streamSubscription?.cancel();
     return super.close();
   }
 }
