@@ -9,23 +9,24 @@ import 'package:mockito/mockito.dart';
 import 'auth_repository_impl_test.mocks.dart';
 
 void main() {
+  late MockAuthRepositoryImpl mockAuthRepositoryImpl;
+
+  final dto = CreateUserDto(
+    name: 'name',
+    email: 'email',
+    password: 'password',
+    lastName: 'lastName',
+  );
+
+  setUp(
+    () {
+      mockAuthRepositoryImpl = MockAuthRepositoryImpl();
+    },
+  );
+
   group(
     'Auth Repository',
     () {
-      late MockAuthRepositoryImpl mockAuthRepositoryImpl;
-
-      final dto = CreateUserDto(
-        name: 'name',
-        email: 'email',
-        password: 'password',
-        lastName: 'lastName',
-      );
-
-      setUp(
-        () {
-          mockAuthRepositoryImpl = MockAuthRepositoryImpl();
-        },
-      );
       test(
         'createUser should return success message',
         () async {
@@ -78,7 +79,7 @@ void main() {
       );
 
       test(
-        'signIn success should return user',
+        'signIn should return user when is success',
         () async {
           //Arrange
           final user = UserEntity(

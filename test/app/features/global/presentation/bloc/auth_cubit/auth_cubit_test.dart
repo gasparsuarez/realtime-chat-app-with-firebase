@@ -1,7 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_realtime_chat_app/app/core/core.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart';
-import 'package:firebase_realtime_chat_app/app/features/auth/domain/entities/entities.dart';
 import 'package:firebase_realtime_chat_app/app/features/global/domain/domain.dart';
 import 'package:firebase_realtime_chat_app/app/features/global/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -10,19 +10,25 @@ import 'package:mockito/mockito.dart';
 
 @GenerateNiceMocks([
   MockSpec<ListenAuthUsecase>(),
+  MockSpec<UserSignoutUsecase>(),
   MockSpec<User>(),
 ])
 import 'auth_cubit_test.mocks.dart';
 
 void main() {
   late AuthCubit authCubit;
-  late MockListenAuthUsecase useCase;
+  late MockListenAuthUsecase listenUseCase;
+  late MockUserSignoutUsecase signOutUsecase;
   late MockUser mockUser;
 
   setUp(() {
-    useCase = MockListenAuthUsecase();
+    listenUseCase = MockListenAuthUsecase();
+    signOutUsecase = MockUserSignoutUsecase();
     mockUser = MockUser();
-    authCubit = AuthCubit(useCase);
+    authCubit = AuthCubit(
+      listenUseCase,
+      signOutUsecase,
+    );
   });
 
   group('Auth Cubit', () {
@@ -33,7 +39,7 @@ void main() {
     blocTest<AuthCubit, AuthState>(
       'emits [Authenticated] when user is not null',
       build: () {
-        when(useCase.call()).thenAnswer(
+        when(listenUseCase.call()).thenAnswer(
           (_) => Stream.fromIterable([
             mockUser,
           ]),
@@ -51,7 +57,7 @@ void main() {
     blocTest<AuthCubit, AuthState>(
       'emits [Unauthenticated] when user is null',
       build: () {
-        when(useCase.call()).thenAnswer(
+        when(listenUseCase.call()).thenAnswer(
           (_) => Stream.fromIterable([
             null,
           ]),
@@ -67,22 +73,16 @@ void main() {
     );
 
     blocTest<AuthCubit, AuthState>(
-      'should set null user when clearState is called',
-      build: () => authCubit,
-      seed: () {
-        final userEntity = UserEntity(
-          uid: 'uid',
-          name: 'name',
-          email: 'email',
-          lastName: 'lastName',
-          isOnline: 1,
-        );
-        return AuthState(user: userEntity);
+      'should set user null when signOut is called',
+      build: () {
+        when(signOutUsecase.call()).thenAnswer((_) async => Either.right(true));
+        return authCubit;
       },
-      act: (cubit) => cubit.clearState(),
+      act: (cubit) => cubit.signOut(),
       expect: () => [
-        const AuthState(
+        AuthState(
           user: null,
+          state: AuthStates.unauthenticated(),
         ),
       ],
     );

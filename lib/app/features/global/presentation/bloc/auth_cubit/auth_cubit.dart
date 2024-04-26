@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_realtime_chat_app/app/core/core.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart';
 import 'package:firebase_realtime_chat_app/app/features/global/domain/domain.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,9 +10,14 @@ part 'auth_state.dart';
 part 'auth_cubit.freezed.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  final ListenAuthUsecase _useCase;
+  final ListenAuthUsecase _listenAuthUsecase;
+  final UserSignoutUsecase _signOutUsecase;
+
   StreamSubscription? _streamSubscription;
-  AuthCubit(this._useCase) : super(const AuthState());
+  AuthCubit(
+    this._listenAuthUsecase,
+    this._signOutUsecase,
+  ) : super(const AuthState());
 
   ///
   /// Set user data in state
@@ -21,17 +27,24 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   ///
-  /// Clear State
+  /// Sign Out
   ///
-  void clearState() {
-    emit(state.copyWith(user: null));
+  void signOut() async {
+    final result = await _signOutUsecase.call();
+
+    switch (result) {
+      case Right():
+        emit(state.copyWith(user: null, state: AuthStates.unauthenticated()));
+      case _:
+        break;
+    }
   }
 
   ///
-  /// Listen authentication status
+  /// Listen authentication states
   ///
   void listenAuthState() {
-    _streamSubscription = _useCase.call().listen(
+    _streamSubscription = _listenAuthUsecase.call().listen(
       (user) {
         if (user != null) {
           emit(state.copyWith(state: AuthStates.authenticated()));

@@ -33,6 +33,6 @@ class ServiceLocator {
     /// blocs
     ///
 
-    sl.registerLazySingleton<AuthCubit>(() => AuthCubit(sl()));
+    sl.registerLazySingleton<AuthCubit>(() => AuthCubit(sl(), sl()));
   }
 }

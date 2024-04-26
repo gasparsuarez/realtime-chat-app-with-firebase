@@ -1,7 +1,5 @@
 import 'package:firebase_realtime_chat_app/app/core/core.dart';
-import 'package:firebase_realtime_chat_app/app/features/auth/presentation/bloc/signout_user/signout_user_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -10,33 +8,18 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => SignoutUserCubit(sl()),
-      child: Scaffold(
-        backgroundColor: kBackgroundColor,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          actions: [
-            BlocConsumer<SignoutUserCubit, SignoutUserState>(
-              listener: (context, state) {
-                switch (state) {
-                  case Error(message: final message):
-                    AlertUtil(context).showAlert(title: 'Error', description: message);
-                    break;
-                  default:
-                }
-              },
-              builder: (context, state) {
-                return TextButton(
-                  onPressed: () => context.read<SignoutUserCubit>().signOut(),
-                  child: const Text('Sign Out'),
-                );
-              },
-            )
-          ],
-          title: const Text(
-            'Chat App',
-          ),
+    return Scaffold(
+      backgroundColor: kBackgroundColor,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        actions: [
+          TextButton(
+            onPressed: () {},
+            child: const Text('Sign Out'),
+          )
+        ],
+        title: const Text(
+          'Chat App',
         ),
       ),
     );
