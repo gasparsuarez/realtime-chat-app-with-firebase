@@ -6,7 +6,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-@GenerateNiceMocks([MockSpec<FirebaseDatasourceImpl>()])
+@GenerateNiceMocks([
+  MockSpec<FirebaseDatasourceImpl>(),
+  MockSpec<User>(),
+])
 import 'auth_repository_impl_test.mocks.dart';
 
 void main() {
@@ -123,6 +126,53 @@ void main() {
             result.whenOrNull(left: (failure) => failure),
             failure,
           );
+        },
+      );
+
+      test(
+        'signOut should return true',
+        () async {
+          // Arrange
+          when(authRepositoryImpl.signOut()).thenAnswer(
+            (_) async => Either.right(true),
+          );
+
+          // Act
+          final result = await authRepositoryImpl.signOut();
+
+          // Expect
+          expect(result.whenOrNull(right: (value) => value), true);
+        },
+      );
+      test(
+        'signOut should return AuthFailure',
+        () async {
+          // Arrange
+          when(datasource.signOut()).thenThrow(AuthFailure.unknown());
+
+          // Act
+          final result = await authRepositoryImpl.signOut();
+
+          // Expect
+          final resultFailure = result.whenOrNull(left: (failure) => failure);
+          expect(resultFailure, AuthFailure.unknown());
+          expect(resultFailure, isA<AuthFailure>());
+        },
+      );
+
+      test(
+        'listenAuthentication should Stream user',
+        () async {
+          //Arrange
+          when(datasource.listenAuthentication()).thenAnswer(
+            (_) => Stream.fromIterable([MockUser()]),
+          );
+          //Act
+          final stream = authRepositoryImpl.listenAuthentication();
+          final result = await stream.first;
+          //Assert
+          expect(stream, isA<Stream>());
+          expect(result, isA<MockUser>());
         },
       );
     },
