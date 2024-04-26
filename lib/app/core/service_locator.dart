@@ -3,9 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/data/datasources/firebase_datasource_impl.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart';
-import 'package:firebase_realtime_chat_app/app/features/global/data/data.dart';
-import 'package:firebase_realtime_chat_app/app/features/global/domain/domain.dart';
-import 'package:firebase_realtime_chat_app/app/features/global/presentation/bloc/auth_cubit/auth_cubit.dart';
+import 'package:firebase_realtime_chat_app/app/features/auth/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:get_it/get_it.dart';
 
 final sl = GetIt.instance;
@@ -24,8 +22,6 @@ class ServiceLocator {
     ///
     //* Auth
     sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(sl()));
-    //* Global
-    sl.registerLazySingleton<AuthStateRepository>(() => AuthStateRepositoryImpl());
 
     ///
     /// Datasources

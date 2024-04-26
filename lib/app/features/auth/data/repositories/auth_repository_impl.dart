@@ -16,7 +16,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return Either.right('The user has been created successfully');
     } on FirebaseAuthException catch (e) {
       return Either.left(
-        parseCodeToFailure(e.code),
+        parseAuthCodeToFailure(e.code),
       );
     }
   }
@@ -29,7 +29,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return Either.right(userEntity);
     } on FirebaseAuthException catch (e) {
       return Either.left(
-        parseCodeToFailure(e.code),
+        parseAuthCodeToFailure(e.code),
       );
     }
   }
@@ -43,4 +43,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return Either.left(AuthFailure.unknown());
     }
   }
+
+  @override
+  Stream<User?> listenAuthentication() => _datasource.listenAuthentication();
 }

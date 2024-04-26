@@ -54,4 +54,7 @@ class FirebaseDatasourceImpl implements AuthDatasource {
       (_) async => await _auth.signOut(),
     );
   }
+
+  @override
+  Stream<User?> listenAuthentication() => _auth.authStateChanges();
 }

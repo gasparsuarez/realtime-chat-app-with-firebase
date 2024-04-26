@@ -1,6 +1,6 @@
 import 'package:firebase_realtime_chat_app/app/features/auth/domain/failures/auth_failure.dart';
 
-AuthFailure parseCodeToFailure(String code) {
+AuthFailure parseAuthCodeToFailure(String code) {
   switch (code) {
     case 'email-already-in-use':
       return AuthFailure.emailAlreadyUsed();

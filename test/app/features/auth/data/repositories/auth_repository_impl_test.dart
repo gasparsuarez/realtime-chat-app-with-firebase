@@ -11,7 +11,7 @@ import 'auth_repository_impl_test.mocks.dart';
 
 void main() {
   late AuthRepositoryImpl authRepositoryImpl;
-  late MockAuthDatasourceImpl datasource;
+  late MockFirebaseDatasourceImpl datasource;
 
   final model = UserModel(
     name: 'name',
@@ -22,7 +22,7 @@ void main() {
 
   setUp(
     () {
-      datasource = MockAuthDatasourceImpl();
+      datasource = MockFirebaseDatasourceImpl();
       authRepositoryImpl = AuthRepositoryImpl(datasource);
     },
   );
