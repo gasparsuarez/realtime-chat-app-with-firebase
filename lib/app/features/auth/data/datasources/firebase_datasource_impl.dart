@@ -15,14 +15,14 @@ class FirebaseDatasourceImpl implements AuthDatasource {
     await _auth.createUserWithEmailAndPassword(email: model.email, password: model.password!).then(
       (credential) async {
         final userData = UserModel(
-          uid: credential.user!.uid,
+          uid: credential.user?.uid,
           name: model.name,
           email: model.email,
           lastName: model.lastName,
           isOnline: 1,
         );
 
-        await _firestore.collection('users').doc(credential.user!.uid).set(userData.toJson());
+        await _firestore.collection('users').doc(credential.user?.uid).set(userData.toJson());
       },
     );
   }
@@ -34,13 +34,14 @@ class FirebaseDatasourceImpl implements AuthDatasource {
       (credential) async {
         // Update online status
 
-        final ref = _firestore.collection('users').doc(credential.user!.uid);
+        final ref = _firestore.collection('users').doc(credential.user?.uid);
         await ref.update({
           'isOnline': 1,
         });
 
         //Get user information
         final snapshot = await ref.get();
+
         user = UserModel.fromJson(snapshot.data()!);
       },
     );
@@ -49,7 +50,7 @@ class FirebaseDatasourceImpl implements AuthDatasource {
 
   @override
   Future<void> signOut() async {
-    final uid = _auth.currentUser!.uid;
+    final uid = _auth.currentUser?.uid;
     await _firestore.collection('users').doc(uid).update({'isOnline': 0}).then(
       (_) async => await _auth.signOut(),
     );
