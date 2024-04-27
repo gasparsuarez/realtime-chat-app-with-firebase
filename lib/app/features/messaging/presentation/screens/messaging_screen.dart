@@ -3,10 +3,10 @@ import 'package:firebase_realtime_chat_app/app/features/auth/presentation/bloc/a
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class MessagingScreen extends StatelessWidget {
+  const MessagingScreen({super.key});
 
-  static const String routeName = 'home_screen';
+  static const String routeName = 'messaging_screen';
 
   @override
   Widget build(BuildContext context) {

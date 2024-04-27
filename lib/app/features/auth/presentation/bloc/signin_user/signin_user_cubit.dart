@@ -22,11 +22,9 @@ class SigninUserCubit extends Cubit<SigninUserState> {
     // result filter
     switch (result) {
       case Left():
-        emit(SigninUserState.error(getFailureMessage(result.left)));
-        break;
+        return emit(SigninUserState.error(getFailureMessage(result.left)));
       case Right():
-        emit(SigninUserState.loaded(result.right));
-        break;
+        return emit(SigninUserState.loaded(result.right));
       default:
         null;
     }

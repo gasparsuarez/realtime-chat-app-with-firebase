@@ -3,7 +3,7 @@ import 'package:firebase_realtime_chat_app/app/core/core.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/presentation/screens/screens.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/presentation/bloc/auth_cubit/auth_cubit.dart';
-import 'package:firebase_realtime_chat_app/app/features/home/presentation/screens/screens.dart';
+import 'package:firebase_realtime_chat_app/app/features/messaging/presentation/screens/screens.dart';
 import 'package:firebase_realtime_chat_app/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,7 +28,7 @@ class MainApp extends StatelessWidget {
         listener: (context, state) {
           switch (state.state) {
             case Authenticated():
-              AppRouter.appRoutes.goNamed(HomeScreen.routeName);
+              AppRouter.appRoutes.goNamed(MessagingScreen.routeName);
               break;
             case Unauthenticated():
               AppRouter.appRoutes.goNamed(StartScreen.routeName);

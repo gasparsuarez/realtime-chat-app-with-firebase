@@ -56,16 +56,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     BlocConsumer<SigninUserCubit, SigninUserState>(
                       listener: (context, state) {
                         switch (state) {
-                          case Loading():
-                            AlertUtil(context).showLoader();
                           case Loaded(user: final user):
-                            AlertUtil(context).hideAlert();
                             AlertUtil(context).showAlert(
                               title: 'Welcome!',
                               description: 'Welcome ${user.name}',
                             );
                           case Error(message: final message):
-                            AlertUtil(context).hideAlert();
                             AlertUtil(context).showAlert(
                               title: 'Error',
                               description: message,
@@ -76,10 +72,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         }
                       },
                       builder: (context, state) {
-                        return Button(
-                          onTap: state is Loading
-                              ? () => null
-                              : () {
+                        return state is Loading
+                            ? const CircularProgressIndicator()
+                            : Button(
+                                onTap: () {
                                   final validationMessage = form.validateForm();
                                   if (validationMessage != null) {
                                     return AlertUtil(context).showAlert(
@@ -93,8 +89,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                         form.passController.text,
                                       );
                                 },
-                          child: const CustomText(text: 'Login'),
-                        );
+                                child: const CustomText(text: 'Login'),
+                              );
                       },
                     ),
                   ],

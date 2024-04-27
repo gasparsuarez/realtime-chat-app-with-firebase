@@ -1,5 +1,5 @@
 import 'package:firebase_realtime_chat_app/app/features/auth/presentation/screens/screens.dart';
-import 'package:firebase_realtime_chat_app/app/features/home/presentation/screens/screens.dart';
+import 'package:firebase_realtime_chat_app/app/features/messaging/presentation/screens/messaging_screen.dart';
 import 'package:go_router/go_router.dart';
 
 ///
@@ -28,9 +28,9 @@ class AppRouter {
         ],
       ),
       GoRoute(
-        path: '/home',
-        name: HomeScreen.routeName,
-        builder: (_, state) => const HomeScreen(),
+        path: '/messaging',
+        name: MessagingScreen.routeName,
+        builder: (_, state) => const MessagingScreen(),
       )
     ],
   );
