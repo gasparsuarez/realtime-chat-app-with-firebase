@@ -6,7 +6,7 @@ class UserSignoutUsecase {
 
   UserSignoutUsecase(this._repository);
 
-  Future<Either<AuthFailure, bool>> call() {
+  Future<Either<Failure, bool>> call() {
     return _repository.signOut();
   }
 }

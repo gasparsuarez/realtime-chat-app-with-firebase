@@ -44,18 +44,18 @@ void main() {
       );
 
       test(
-        'when call() is failure should return AuthFailure',
+        'when call() is failure should return Failure',
         () async {
           //Arrange
           when(userRegisterUsecase.call(dto)).thenAnswer(
-            (_) async => Either.left(AuthFailure.invalidEmail()),
+            (_) async => Either.left(Failure.auth('')),
           );
 
           //Act
           final result = await userRegisterUsecase.call(dto);
 
           //Assert
-          expect(result.whenOrNull(left: (failure) => failure), isA<AuthFailure>());
+          expect(result.whenOrNull(left: (failure) => failure), isA<Failure>());
         },
       );
     },

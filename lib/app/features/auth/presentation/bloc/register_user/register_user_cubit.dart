@@ -20,7 +20,7 @@ class RegisterUserCubit extends Cubit<RegisterUserState> {
       case Right():
         emit(RegisterUserState.loaded(result.right));
       case Left():
-        emit(RegisterUserState.error(result.left.message));
+        emit(RegisterUserState.error(getFailureMessage(result.left)));
     }
   }
 }

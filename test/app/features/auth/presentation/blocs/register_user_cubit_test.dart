@@ -56,14 +56,14 @@ void main() {
         'emits [loading, Error] when Register is called.',
         build: () {
           when(mockUsecase.call(dto)).thenAnswer(
-            (_) async => Either.left(AuthFailure.invalidEmail()),
+            (_) async => Either.left(Failure.auth('invalid-email')),
           );
           return registerUserCubit;
         },
         act: (cubit) => cubit.register(dto),
         expect: () => [
           const Loading(),
-          Error(AuthFailure.invalidEmail().message),
+          const Error('Enter a valid email!'),
         ],
       );
     },

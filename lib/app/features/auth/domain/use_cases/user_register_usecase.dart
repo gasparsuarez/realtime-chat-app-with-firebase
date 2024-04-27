@@ -7,7 +7,7 @@ class UserRegisterUsecase {
 
   UserRegisterUsecase(this._authRepository);
 
-  Future<Either<AuthFailure, String>> call(UserModel model) {
+  Future<Either<Failure, String>> call(UserModel model) {
     return _authRepository.createUser(model);
   }
 }

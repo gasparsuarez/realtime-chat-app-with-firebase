@@ -33,7 +33,7 @@ class UserModel {
         isOnline: model.isOnline!,
       );
 
-  toJson() => {
+  Map<String, dynamic> toJson() => {
         'uid': uid,
         'name': name,
         'lastName': lastName,

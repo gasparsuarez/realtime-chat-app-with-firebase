@@ -1,10 +1,11 @@
-import 'package:firebase_realtime_chat_app/app/core/core.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'auth_failure.freezed.dart';
 
+//TODO: Reemplazar por enum
+
 @freezed
-sealed class AuthFailure extends Failure with _$AuthFailure {
+sealed class AuthFailure with _$AuthFailure {
   factory AuthFailure.emailAlreadyUsed({@Default('Email is already used!') String message}) =
       _EmailAlreadyUsed;
   factory AuthFailure.wrongPassword({@Default('The pasword is wrong!') String message}) =

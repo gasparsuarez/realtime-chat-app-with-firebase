@@ -51,19 +51,18 @@ void main() {
         ],
       );
 
-      final failure = AuthFailure.userNotFound();
       blocTest<SigninUserCubit, SigninUserState>(
         'emits [Loading, Error] when SignIn is called.',
         build: () {
           when(mockUsecase.call(any, any)).thenAnswer(
-            (_) async => Either.left(failure),
+            (_) async => Either.left(Failure.auth('user-not-found')),
           );
           return signinUserCubit;
         },
         act: (cubit) => cubit.signIn('email', 'password'),
         expect: () => [
           const SigninUserState.loading(),
-          SigninUserState.error(failure.message),
+          const SigninUserState.error('User not corresponding to the given email'),
         ],
       );
     },

@@ -6,7 +6,7 @@ class UserSigninUsecase {
 
   UserSigninUsecase(this._repository);
 
-  Future<Either<AuthFailure, UserEntity>> call(String email, String password) {
+  Future<Either<Failure, UserEntity>> call(String email, String password) {
     return _repository.signIn(email, password);
   }
 }

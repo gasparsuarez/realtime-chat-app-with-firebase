@@ -37,18 +37,21 @@ void main() {
   );
 
   test(
-    'should return AuthFailure when is failure',
+    'should return Failure when is failure',
     () async {
       // arrange
       when(usecase.call()).thenAnswer(
-        (_) async => Either.left(AuthFailure.unknown()),
+        (_) async => Either.left(Failure.auth('')),
       );
 
       // act
       final result = await usecase.call();
 
       // expect
-      expect(result.whenOrNull(left: (failure) => failure), isA<AuthFailure>());
+      expect(
+        result.whenOrNull(left: (failure) => failure),
+        isA<Failure>(),
+      );
     },
   );
 }

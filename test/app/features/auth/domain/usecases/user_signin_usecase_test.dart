@@ -48,10 +48,10 @@ void main() {
       });
 
       test(
-        'should return AuthFailure',
+        'should return Failure',
         () async {
           //Arrange
-          final failure = AuthFailure.userNotFound();
+          final failure = Failure.auth('');
           when(userSigninUsecase.call('', '')).thenAnswer(
             (_) async => Either.left(failure),
           );
@@ -61,11 +61,11 @@ void main() {
           //Assert
           expect(
             result.whenOrNull(left: (failure) => failure),
-            isA<AuthFailure>(),
+            isA<Failure>(),
           );
           expect(
             result.whenOrNull(left: (failure) => failure),
-            AuthFailure.userNotFound(),
+            Failure.auth(''),
           );
         },
       );

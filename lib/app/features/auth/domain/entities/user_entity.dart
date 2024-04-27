@@ -12,20 +12,4 @@ class UserEntity {
     required this.lastName,
     required this.isOnline,
   });
-
-  factory UserEntity.fromJson(Map<String, dynamic> json) => UserEntity(
-        uid: json['uid'],
-        name: json['name'],
-        email: json['email'],
-        lastName: json['lastName'],
-        isOnline: json['isOnline'],
-      );
-
-  toJson() => {
-        'uid': uid,
-        'name': name,
-        'email': email,
-        'lastName': lastName,
-        'isOnline': isOnline,
-      };
 }

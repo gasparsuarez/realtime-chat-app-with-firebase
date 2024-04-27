@@ -1,18 +1,19 @@
-import 'package:firebase_realtime_chat_app/app/features/auth/domain/failures/auth_failure.dart';
-
-AuthFailure parseAuthCodeToFailure(String code) {
+///
+/// Parse [FirebaseAuthException] codes to response message
+///
+String parseAuthCodeToMessage(String code) {
   switch (code) {
     case 'email-already-in-use':
-      return AuthFailure.emailAlreadyUsed();
+      return 'Email is already used!';
     case 'wrong-password':
-      return AuthFailure.wrongPassword();
+      return 'The pasword is wrong!';
     case 'invalid-email':
-      return AuthFailure.invalidEmail();
+      return 'Enter a valid email!';
     case 'user-not-found':
-      return AuthFailure.userNotFound();
+      return 'User not corresponding to the given email';
     case 'invalid-credential':
-      return AuthFailure.invalidCredential();
+      return 'Wrong user or password';
     default:
-      return AuthFailure.unknown();
+      return 'Unknown error';
   }
 }

@@ -59,10 +59,10 @@ void main() {
       );
 
       test(
-        'createUser should return AuthFailure',
+        'createUser should return Failure',
         () async {
           //Arrange
-          final failure = AuthFailure.invalidEmail();
+          final failure = Failure.auth('invalid-email');
 
           when(datasource.createUser(model))
               .thenThrow(FirebaseAuthException(code: 'invalid-email'));
@@ -76,7 +76,7 @@ void main() {
           );
           expect(
             result.whenOrNull(left: (failure) => failure),
-            isA<AuthFailure>(),
+            isA<Failure>(),
           );
         },
       );
@@ -108,10 +108,9 @@ void main() {
       );
 
       test(
-        'signIn should return AuthFailure',
+        'signIn should return Failure when throw Exception',
         () async {
           //Arrange
-          final failure = AuthFailure.unknown();
           when(datasource.signIn('', '')).thenThrow(FirebaseAuthException(code: ''));
 
           //Act
@@ -120,11 +119,11 @@ void main() {
           //Assert
           expect(
             result.whenOrNull(left: (failure) => failure),
-            isA<AuthFailure>(),
+            isA<Failure>(),
           );
           expect(
             result.whenOrNull(left: (failure) => failure),
-            failure,
+            Failure.auth(''),
           );
         },
       );
@@ -145,18 +144,18 @@ void main() {
         },
       );
       test(
-        'signOut should return AuthFailure',
+        'signOut should return Failure when throw Exception',
         () async {
           // Arrange
-          when(datasource.signOut()).thenThrow(AuthFailure.unknown());
+          when(datasource.signOut()).thenThrow(FirebaseAuthException(code: 'invalid-email'));
 
           // Act
           final result = await authRepositoryImpl.signOut();
 
           // Expect
           final resultFailure = result.whenOrNull(left: (failure) => failure);
-          expect(resultFailure, AuthFailure.unknown());
-          expect(resultFailure, isA<AuthFailure>());
+          expect(resultFailure, Failure.auth('invalid-email'));
+          expect(resultFailure, isA<Failure>());
         },
       );
 
