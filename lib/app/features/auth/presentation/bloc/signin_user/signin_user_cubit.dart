@@ -24,7 +24,7 @@ class SigninUserCubit extends Cubit<SigninUserState> {
       case Left():
         return emit(SigninUserState.error(getFailureMessage(result.left)));
       case Right():
-        return emit(SigninUserState.loaded(result.right));
+        return emit(const SigninUserState.loaded());
       default:
         null;
     }

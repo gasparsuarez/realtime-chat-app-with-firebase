@@ -21,29 +21,23 @@ void main() {
   group(
     'User SignIn Usecase',
     () {
-      test('should return user', () async {
+      test('should return true', () async {
         //Arrange
-        final user = UserEntity(
-          uid: 'uid',
-          name: 'name',
-          email: 'email',
-          lastName: 'lastName',
-          isOnline: 1,
+        when(repository.signIn('', '')).thenAnswer(
+          (_) async => Either.right(true),
         );
 
-        when(userSigninUsecase.call('', '')).thenAnswer(
-          (_) async => Either.right(user),
-        );
         //Act
         final result = await userSigninUsecase.call('', '');
+
         //Assert
         expect(
-          result.whenOrNull(right: (user) => user),
-          isA<UserEntity>(),
+          result.whenOrNull(right: (value) => value),
+          isA<bool>(),
         );
         expect(
-          result.whenOrNull(right: (user) => user),
-          user,
+          result.whenOrNull(right: (value) => value),
+          true,
         );
       });
 
@@ -52,7 +46,7 @@ void main() {
         () async {
           //Arrange
           final failure = Failure.auth('');
-          when(userSigninUsecase.call('', '')).thenAnswer(
+          when(repository.signIn('', '')).thenAnswer(
             (_) async => Either.left(failure),
           );
           //Act

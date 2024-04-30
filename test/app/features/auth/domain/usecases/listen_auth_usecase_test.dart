@@ -26,7 +26,7 @@ void main() {
         'call() should Stream User',
         () async {
           // Arrange
-          when(usecase.call()).thenAnswer(
+          when(mockRepository.listenAuthentication()).thenAnswer(
             (_) => Stream.fromIterable([MockUser()]),
           );
 

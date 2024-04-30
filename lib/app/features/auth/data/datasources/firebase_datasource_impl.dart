@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/data/models/user_model.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart';
 
-class FirebaseDatasourceImpl implements AuthDatasource {
+class FirebaseDatasourceImpl implements FirebaseDatasource {
   final FirebaseFirestore _firestore;
   final FirebaseAuth _auth;
 
@@ -28,8 +28,7 @@ class FirebaseDatasourceImpl implements AuthDatasource {
   }
 
   @override
-  Future<UserModel> signIn(String email, String password) async {
-    late UserModel user;
+  Future<void> signIn(String email, String password) async {
     await _auth.signInWithEmailAndPassword(email: email, password: password).then(
       (credential) async {
         // Update online status
@@ -38,14 +37,8 @@ class FirebaseDatasourceImpl implements AuthDatasource {
         await ref.update({
           'isOnline': 1,
         });
-
-        //Get user information
-        final snapshot = await ref.get();
-
-        user = UserModel.fromJson(snapshot.data()!);
       },
     );
-    return user;
   }
 
   @override
@@ -58,4 +51,11 @@ class FirebaseDatasourceImpl implements AuthDatasource {
 
   @override
   Stream<User?> listenAuthentication() => _auth.authStateChanges();
+
+  @override
+  Future<UserModel> fetchUserData() async {
+    final uid = _auth.currentUser?.uid;
+    final snapshot = await _firestore.collection('users').doc(uid).get();
+    return UserModel.fromJson(snapshot.data()!);
+  }
 }

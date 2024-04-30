@@ -39,8 +39,8 @@ void main() {
           const successMessage = 'The user has been created successfully';
 
           //Arrange
-          when(authRepositoryImpl.createUser(model)).thenAnswer(
-            (_) async => Either.right(successMessage),
+          when(datasource.createUser(model)).thenAnswer(
+            (_) async => Future<void>,
           );
 
           //Act
@@ -82,27 +82,20 @@ void main() {
       );
 
       test(
-        'signIn should return user when is success',
+        'signIn should return true when is success',
         () async {
           //Arrange
-          final user = UserModel(
-            uid: 'uid',
-            name: 'name',
-            email: 'email',
-            lastName: 'lastName',
-            isOnline: 1,
-          );
 
           when(datasource.signIn('', '')).thenAnswer(
-            (_) async => user,
+            (_) async => Future,
           );
 
           //Act
           final result = await authRepositoryImpl.signIn('', '');
           //Assert
           expect(
-            result.whenOrNull(right: (user) => user),
-            isA<UserEntity>(),
+            result.whenOrNull(right: (value) => value),
+            isA<bool>(),
           );
         },
       );
@@ -132,8 +125,8 @@ void main() {
         'signOut should return true',
         () async {
           // Arrange
-          when(authRepositoryImpl.signOut()).thenAnswer(
-            (_) async => Either.right(true),
+          when(datasource.signOut()).thenAnswer(
+            (_) async => Future,
           );
 
           // Act
@@ -174,6 +167,42 @@ void main() {
           expect(result, isA<MockUser>());
         },
       );
+
+      test('FetchUserData should return UserData', () async {
+        //Arrange
+        final user = UserModel(
+            name: 'name',
+            email: 'email',
+            password: 'password',
+            lastName: 'lastName',
+            isOnline: 1,
+            uid: '');
+
+        when(datasource.fetchUserData()).thenAnswer((_) async => Future.value(user));
+
+        //Act
+        final result = await authRepositoryImpl.fetchUserData();
+
+        //Assert
+        expect(
+          result.whenOrNull(right: (user) => user),
+          isA<UserEntity>(),
+        );
+      });
+
+      test('FetchUserData should return Failure', () async {
+        //Arrange
+        when(datasource.fetchUserData()).thenThrow(FirebaseException(plugin: ''));
+
+        //Act
+        final result = await authRepositoryImpl.fetchUserData();
+
+        //Assert
+        expect(
+          result.whenOrNull(left: (failure) => failure),
+          isA<Failure>(),
+        );
+      });
     },
   );
 }

@@ -28,26 +28,18 @@ void main() {
         expect(signinUserCubit.state, const SigninUserState.initial());
       });
 
-      final user = UserEntity(
-        uid: 'uid',
-        name: 'name',
-        email: 'email',
-        lastName: 'lastName',
-        isOnline: 1,
-      );
-
       blocTest<SigninUserCubit, SigninUserState>(
         'emits [Loading, Loaded] when SignIn is called.',
         build: () {
           when(mockUsecase.call(any, any)).thenAnswer(
-            (_) async => Either.right(user),
+            (_) async => Either.right(true),
           );
           return signinUserCubit;
         },
         act: (cubit) => cubit.signIn('email', 'password'),
         expect: () => [
           const SigninUserState.loading(),
-          SigninUserState.loaded(user),
+          const SigninUserState.loaded(),
         ],
       );
 

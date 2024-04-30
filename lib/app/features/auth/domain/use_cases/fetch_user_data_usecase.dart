@@ -1,12 +1,12 @@
 import 'package:firebase_realtime_chat_app/app/core/core.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart';
 
-class UserSigninUsecase {
+class FetchUserDataUsecase {
   final AuthRepository _repository;
 
-  UserSigninUsecase(this._repository);
+  FetchUserDataUsecase(this._repository);
 
-  Future<Either<Failure, bool>> call(String email, String password) {
-    return _repository.signIn(email, password);
+  Future<Either<Failure, UserEntity>> call() {
+    return _repository.fetchUserData();
   }
 }

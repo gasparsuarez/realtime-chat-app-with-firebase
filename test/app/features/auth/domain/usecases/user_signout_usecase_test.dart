@@ -24,7 +24,7 @@ void main() {
     'should return true when is success',
     () async {
       // arrange
-      when(usecase.call()).thenAnswer(
+      when(mockRepository.signOut()).thenAnswer(
         (_) async => Either.right(true),
       );
 
@@ -40,7 +40,7 @@ void main() {
     'should return Failure when is failure',
     () async {
       // arrange
-      when(usecase.call()).thenAnswer(
+      when(mockRepository.signOut()).thenAnswer(
         (_) async => Either.left(Failure.auth('')),
       );
 

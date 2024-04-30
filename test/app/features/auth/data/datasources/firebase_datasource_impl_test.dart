@@ -75,7 +75,7 @@ void main() {
             mockFirebaseAuth.createUserWithEmailAndPassword(email: 'email', password: 'password'));
       });
 
-      test('signIn should return User Model', () async {
+      test('signIn should update online status', () async {
         //Arrange
         when(mockFirebaseAuth.signInWithEmailAndPassword(email: 'email', password: 'password'))
             .thenAnswer(
@@ -89,24 +89,11 @@ void main() {
 
         when(mockDocumentReference.update({'isOnline': ''})).thenAnswer((_) async => Future<void>);
 
-        when(mockDocumentReference.get()).thenAnswer(
-          (_) async => Future.value(mockDocumentSnapshot),
-        );
-        final Map<String, dynamic> mockUserData = {
-          'name': 'name',
-          'lastName': 'lastName',
-          'email': 'email',
-          'uid': 'uid',
-          'isOnline': 0,
-        };
-        when(mockDocumentSnapshot.data()).thenReturn(mockUserData);
-
         //Act
-        final result = await firebaseDatasourceImpl.signIn('email', 'password');
+        await firebaseDatasourceImpl.signIn('email', 'password');
 
         //Assert
         verify(mockFirebaseAuth.signInWithEmailAndPassword(email: 'email', password: 'password'));
-        expect(result, isA<UserModel>());
       });
 
       test('signOut should logout user', () async {
@@ -141,6 +128,34 @@ void main() {
         verify(mockFirebaseAuth.authStateChanges());
         expect(stream, isA<Stream>());
         expect(user, isA<MockUser>());
+      });
+
+      test('Fetch User Data should return UserModel', () async {
+        //Arrange
+
+        final Map<String, dynamic> mockUser = {
+          'email': '',
+          'isOnline': 0,
+          'lastName': '',
+          'name': '',
+          'uid': '',
+        };
+
+        when(mockFirebaseFirestore.collection('users')).thenReturn(mockCollectionReference);
+
+        when(mockCollectionReference.doc(userCredential.user?.uid))
+            .thenReturn(mockDocumentReference);
+
+        when(mockDocumentReference.get()).thenAnswer((_) => Future.value(mockDocumentSnapshot));
+
+        when(mockDocumentSnapshot.data()).thenAnswer((_) => mockUser);
+
+        //Act
+        final result = await firebaseDatasourceImpl.fetchUserData();
+
+        //Assert
+        verify(mockFirebaseFirestore.collection('users')).called(1);
+        expect(result, isA<UserModel>());
       });
     },
   );

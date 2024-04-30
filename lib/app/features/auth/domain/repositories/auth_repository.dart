@@ -5,7 +5,8 @@ import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart'
 
 abstract class AuthRepository {
   Future<Either<Failure, String>> createUser(UserModel model);
-  Future<Either<Failure, UserEntity>> signIn(String email, String password);
+  Future<Either<Failure, bool>> signIn(String email, String password);
   Future<Either<Failure, bool>> signOut();
   Stream<User?> listenAuthentication();
+  Future<Either<Failure, UserEntity>> fetchUserData();
 }

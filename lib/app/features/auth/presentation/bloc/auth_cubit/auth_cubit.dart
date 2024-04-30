@@ -8,6 +8,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'auth_state.dart';
 part 'auth_cubit.freezed.dart';
 
+//TODO: Realizar consulta de usuario en este Cubit
+
 class AuthCubit extends Cubit<AuthState> {
   final ListenAuthUsecase _listenAuthUsecase;
   final UserSignoutUsecase _signOutUsecase;
@@ -46,9 +48,9 @@ class AuthCubit extends Cubit<AuthState> {
     _streamSubscription = _listenAuthUsecase.call().listen(
       (user) async {
         if (user != null) {
-          emit(AuthState(state: AuthStates.authenticated()));
+          emit(state.copyWith(state: AuthStates.authenticated()));
         } else {
-          emit(AuthState(state: AuthStates.unauthenticated(), user: null));
+          emit(state.copyWith(state: AuthStates.unauthenticated(), user: null));
         }
       },
     );

@@ -25,14 +25,13 @@ class MainApp extends StatelessWidget {
     return BlocProvider(
       create: (_) => sl.get<AuthCubit>()..listenAuthState(),
       child: BlocConsumer<AuthCubit, AuthState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           switch (state.state) {
             case Authenticated():
-              AppRouter.appRoutes.goNamed(MessagingScreen.routeName);
-              break;
+              await Future.delayed(const Duration(seconds: 2));
+              return AppRouter.appRoutes.goNamed(MessagingScreen.routeName);
             case Unauthenticated():
-              AppRouter.appRoutes.goNamed(StartScreen.routeName);
-              break;
+              return AppRouter.appRoutes.goNamed(StartScreen.routeName);
             default:
               AppRouter.appRoutes.goNamed(StartScreen.routeName);
           }

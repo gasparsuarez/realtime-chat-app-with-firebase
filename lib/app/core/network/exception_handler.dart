@@ -6,7 +6,7 @@ import 'package:firebase_realtime_chat_app/app/core/core.dart';
 ///
 /// Exception Handler
 ///
-/// This return custom Failure for handle responses
+/// Return custom Failure for handle responses
 ///
 class ExceptionHandler {
   ExceptionHandler._();

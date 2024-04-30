@@ -26,7 +26,7 @@ class ServiceLocator {
     ///
     /// Datasources
     ///
-    sl.registerLazySingleton<AuthDatasource>(() => FirebaseDatasourceImpl(sl(), sl()));
+    sl.registerLazySingleton<FirebaseDatasource>(() => FirebaseDatasourceImpl(sl(), sl()));
 
     ///
     /// Use cases

@@ -5,7 +5,7 @@ import 'package:firebase_realtime_chat_app/app/features/auth/data/data.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  final AuthDatasource _datasource;
+  final FirebaseDatasource _datasource;
 
   // Dependency Injection
   AuthRepositoryImpl(this._datasource);
@@ -21,11 +21,10 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, UserEntity>> signIn(String email, String password) async {
+  Future<Either<Failure, bool>> signIn(String email, String password) async {
     try {
-      final userModel = await _datasource.signIn(email, password);
-      final userEntity = UserModel.modelToUser(userModel);
-      return Either.right(userEntity);
+      await _datasource.signIn(email, password);
+      return Either.right(true);
     } on Exception catch (e) {
       return Either.left(ExceptionHandler.handleException(e));
     }
@@ -43,4 +42,15 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Stream<User?> listenAuthentication() => _datasource.listenAuthentication();
+
+  @override
+  Future<Either<Failure, UserEntity>> fetchUserData() async {
+    try {
+      final model = await _datasource.fetchUserData();
+      final user = UserModel.modelToUser(model);
+      return Either.right(user);
+    } on Exception catch (e) {
+      return Either.left(ExceptionHandler.handleException(e));
+    }
+  }
 }

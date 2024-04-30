@@ -13,19 +13,25 @@ class MessagingScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        centerTitle: false,
+        backgroundColor: Colors.brown,
         actions: [
           BlocBuilder<AuthCubit, AuthState>(
             builder: (context, state) {
               return TextButton(
                 onPressed: () => context.read<AuthCubit>().signOut(),
-                child: const Text('Sign Out'),
+                child: CustomText(
+                  text: 'Logout',
+                  textColor: kBlackColor,
+                  fontSize: context.w * .04,
+                ),
               );
             },
           )
         ],
-        title: const Text(
-          'Chat App',
+        title: CustomText(
+          text: 'ChatApp',
+          fontSize: context.w * .06,
         ),
       ),
     );

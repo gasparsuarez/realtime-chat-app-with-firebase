@@ -22,7 +22,7 @@ void main() {
   group(
     'User Register Usecase',
     () {
-      final dto = UserModel(
+      final model = UserModel(
         name: 'name',
         email: 'email',
         password: 'password',
@@ -30,16 +30,21 @@ void main() {
       );
 
       test(
-        'when call() is success should return String',
+        'should return success message',
         () async {
           //Arrange
-          when(userRegisterUsecase.call(dto)).thenAnswer(
-            (_) async => Either.right('Success mock'),
+          when(mockRepository.createUser(any)).thenAnswer(
+            (_) async => Either.right(''),
           );
+
           //Act
-          final result = await userRegisterUsecase.call(dto);
+          final result = await userRegisterUsecase.call(model);
+
           //Assert
-          expect(result.whenOrNull(right: (success) => success), isA<String>());
+          expect(
+            result.whenOrNull(right: (success) => success),
+            isA<String>(),
+          );
         },
       );
 
@@ -47,12 +52,12 @@ void main() {
         'when call() is failure should return Failure',
         () async {
           //Arrange
-          when(userRegisterUsecase.call(dto)).thenAnswer(
+          when(mockRepository.createUser(any)).thenAnswer(
             (_) async => Either.left(Failure.auth('')),
           );
 
           //Act
-          final result = await userRegisterUsecase.call(dto);
+          final result = await userRegisterUsecase.call(model);
 
           //Assert
           expect(result.whenOrNull(left: (failure) => failure), isA<Failure>());

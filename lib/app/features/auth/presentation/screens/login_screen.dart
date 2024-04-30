@@ -56,11 +56,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     BlocConsumer<SigninUserCubit, SigninUserState>(
                       listener: (context, state) {
                         switch (state) {
-                          case Loaded(user: final user):
-                            AlertUtil(context).showAlert(
-                              title: 'Welcome!',
-                              description: 'Welcome ${user.name}',
-                            );
                           case Error(message: final message):
                             AlertUtil(context).showAlert(
                               title: 'Error',

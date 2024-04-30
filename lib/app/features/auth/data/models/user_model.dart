@@ -26,12 +26,11 @@ class UserModel {
       );
 
   static UserEntity modelToUser(UserModel model) => UserEntity(
-        uid: model.uid!,
-        name: model.name,
-        email: model.email,
-        lastName: model.lastName,
-        isOnline: model.isOnline!,
-      );
+      uid: model.uid!,
+      name: model.name,
+      email: model.email,
+      lastName: model.lastName,
+      isOnline: model.isOnline!);
 
   Map<String, dynamic> toJson() => {
         'uid': uid,
