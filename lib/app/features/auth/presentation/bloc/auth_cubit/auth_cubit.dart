@@ -8,16 +8,16 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'auth_state.dart';
 part 'auth_cubit.freezed.dart';
 
-//TODO: Realizar consulta de usuario en este Cubit
-
 class AuthCubit extends Cubit<AuthState> {
   final ListenAuthUsecase _listenAuthUsecase;
   final UserSignoutUsecase _signOutUsecase;
+  final FetchUserDataUsecase _fetchUserDataUsecase;
 
   StreamSubscription? _streamSubscription;
   AuthCubit(
     this._listenAuthUsecase,
     this._signOutUsecase,
+    this._fetchUserDataUsecase,
   ) : super(const AuthState());
 
   ///
@@ -25,6 +25,18 @@ class AuthCubit extends Cubit<AuthState> {
   ///
   void setUserInState(UserEntity user) {
     emit(state.copyWith(user: user));
+  }
+
+  ///
+  /// Fetch User Data
+  ///
+  Future<void> fetchUserData() async {
+    final result = await _fetchUserDataUsecase.call();
+
+    switch (result) {
+      case Right():
+        emit(state.copyWith(user: result.right));
+    }
   }
 
   ///

@@ -28,7 +28,7 @@ class MainApp extends StatelessWidget {
         listener: (context, state) async {
           switch (state.state) {
             case Authenticated():
-              await Future.delayed(const Duration(seconds: 2));
+              await context.read<AuthCubit>().fetchUserData();
               return AppRouter.appRoutes.goNamed(MessagingScreen.routeName);
             case Unauthenticated():
               return AppRouter.appRoutes.goNamed(StartScreen.routeName);
