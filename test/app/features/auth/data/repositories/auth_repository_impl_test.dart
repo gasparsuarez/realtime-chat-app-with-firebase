@@ -7,14 +7,14 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 @GenerateNiceMocks([
-  MockSpec<FirebaseDatasourceImpl>(),
+  MockSpec<AuthFirebaseDatasourceImpl>(),
   MockSpec<User>(),
 ])
 import 'auth_repository_impl_test.mocks.dart';
 
 void main() {
   late AuthRepositoryImpl authRepositoryImpl;
-  late MockFirebaseDatasourceImpl datasource;
+  late MockAuthFirebaseDatasourceImpl datasource;
 
   final model = UserModel(
     name: 'name',
@@ -25,7 +25,7 @@ void main() {
 
   setUp(
     () {
-      datasource = MockFirebaseDatasourceImpl();
+      datasource = MockAuthFirebaseDatasourceImpl();
       authRepositoryImpl = AuthRepositoryImpl(datasource);
     },
   );

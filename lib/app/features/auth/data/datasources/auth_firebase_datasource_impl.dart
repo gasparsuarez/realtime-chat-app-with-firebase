@@ -3,12 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/data/models/user_model.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart';
 
-class FirebaseDatasourceImpl implements FirebaseDatasource {
+class AuthFirebaseDatasourceImpl implements AuthFirebaseDatasource {
   final FirebaseFirestore _firestore;
   final FirebaseAuth _auth;
 
   // Dependency injection
-  FirebaseDatasourceImpl(this._firestore, this._auth);
+  AuthFirebaseDatasourceImpl(this._firestore, this._auth);
 
   @override
   Future<void> createUser(UserModel model) async {

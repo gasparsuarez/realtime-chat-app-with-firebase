@@ -1,7 +1,7 @@
 import 'package:firebase_realtime_chat_app/app/core/core.dart';
-import 'package:firebase_realtime_chat_app/app/features/auth/presentation/bloc/auth_cubit/auth_cubit.dart';
+import 'package:firebase_realtime_chat_app/app/features/messaging/presentation/widgets/custom_sliver_appbar.dart';
+import 'package:firebase_realtime_chat_app/app/features/messaging/presentation/widgets/user_list_builder.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MessagingScreen extends StatelessWidget {
   const MessagingScreen({super.key});
@@ -12,27 +12,24 @@ class MessagingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kBackgroundColor,
-      appBar: AppBar(
-        centerTitle: false,
-        backgroundColor: Colors.brown,
-        actions: [
-          BlocBuilder<AuthCubit, AuthState>(
-            builder: (context, state) {
-              return TextButton(
-                onPressed: () => context.read<AuthCubit>().signOut(),
-                child: CustomText(
-                  text: 'Logout',
-                  textColor: kBlackColor,
-                  fontSize: context.w * .04,
-                ),
-              );
-            },
-          )
+      body: CustomScrollView(
+        physics: const ClampingScrollPhysics(),
+        slivers: [
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) => Column(
+                children: [
+                  const CustomSliverAppbar(),
+                  SizedBox(
+                    height: context.w * 0.02,
+                  ),
+                  const UserListBuilder(),
+                ],
+              ),
+              childCount: 1,
+            ),
+          ),
         ],
-        title: CustomText(
-          text: 'ChatApp',
-          fontSize: context.w * .06,
-        ),
       ),
     );
   }

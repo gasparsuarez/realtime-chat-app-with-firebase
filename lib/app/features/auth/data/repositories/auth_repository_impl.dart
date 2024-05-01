@@ -5,7 +5,7 @@ import 'package:firebase_realtime_chat_app/app/features/auth/data/data.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  final FirebaseDatasource _datasource;
+  final AuthFirebaseDatasource _datasource;
 
   // Dependency Injection
   AuthRepositoryImpl(this._datasource);

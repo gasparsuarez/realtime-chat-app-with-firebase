@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_realtime_chat_app/app/features/auth/data/datasources/firebase_datasource_impl.dart';
+import 'package:firebase_realtime_chat_app/app/features/auth/data/datasources/auth_firebase_datasource_impl.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/presentation/bloc/auth_cubit/auth_cubit.dart';
+import 'package:firebase_realtime_chat_app/app/features/messaging/messaging.dart';
 import 'package:get_it/get_it.dart';
 
 final sl = GetIt.instance;
@@ -22,11 +23,17 @@ class ServiceLocator {
     ///
     //* Auth
     sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(sl()));
+    //* Messaging
+    sl.registerLazySingleton<MessagingRepository>(() => MessagingRepositoryImpl(sl()));
 
     ///
     /// Datasources
     ///
-    sl.registerLazySingleton<FirebaseDatasource>(() => FirebaseDatasourceImpl(sl(), sl()));
+    //* Auth
+    sl.registerLazySingleton<AuthFirebaseDatasource>(() => AuthFirebaseDatasourceImpl(sl(), sl()));
+    //* Messaging
+    sl.registerLazySingleton<MessagingFirebaseDatasource>(
+        () => MessagingFirebaseDatasourceImpl(sl()));
 
     ///
     /// Use cases
@@ -36,9 +43,10 @@ class ServiceLocator {
     sl.registerLazySingleton<UserSigninUsecase>(() => UserSigninUsecase(sl()));
     sl.registerLazySingleton<UserSignoutUsecase>(() => UserSignoutUsecase(sl()));
     sl.registerLazySingleton<FetchUserDataUsecase>(() => FetchUserDataUsecase(sl()));
-
-    //* Global
     sl.registerLazySingleton<ListenAuthUsecase>(() => ListenAuthUsecase(sl()));
+
+    //* Messaging
+    sl.registerLazySingleton<ListenUsersUsecase>(() => ListenUsersUsecase(sl()));
 
     ///
     /// blocs

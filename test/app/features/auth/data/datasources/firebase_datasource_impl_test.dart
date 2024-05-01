@@ -19,7 +19,7 @@ import 'package:mockito/mockito.dart';
 import 'firebase_datasource_impl_test.mocks.dart';
 
 void main() {
-  late FirebaseDatasourceImpl firebaseDatasourceImpl;
+  late AuthFirebaseDatasourceImpl firebaseDatasourceImpl;
   late MockFirebaseFirestore mockFirebaseFirestore;
   late MockFirebaseAuth mockFirebaseAuth;
   late MockUserCredential userCredential;
@@ -38,7 +38,7 @@ void main() {
       mockUser = MockUser();
 
       mockFirebaseFirestore = MockFirebaseFirestore();
-      firebaseDatasourceImpl = FirebaseDatasourceImpl(
+      firebaseDatasourceImpl = AuthFirebaseDatasourceImpl(
         mockFirebaseFirestore,
         mockFirebaseAuth,
       );

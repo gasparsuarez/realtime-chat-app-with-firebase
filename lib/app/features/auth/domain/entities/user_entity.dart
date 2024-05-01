@@ -12,4 +12,6 @@ class UserEntity {
     required this.lastName,
     required this.isOnline,
   });
+
+  bool get isOnlineUser => isOnline == 1 ? true : false;
 }
