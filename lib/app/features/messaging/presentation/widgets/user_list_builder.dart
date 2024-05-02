@@ -2,9 +2,11 @@ import 'dart:developer';
 
 import 'package:firebase_realtime_chat_app/app/core/core.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/presentation/bloc/auth_cubit/auth_cubit.dart';
+import 'package:firebase_realtime_chat_app/app/features/messaging/messaging.dart';
 import 'package:firebase_realtime_chat_app/app/features/messaging/presentation/blocs/cubit/listen_users_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class UserListBuilder extends StatelessWidget {
   const UserListBuilder({super.key});
@@ -43,7 +45,10 @@ class UserListBuilder extends StatelessWidget {
                           return Card(
                             child: ListTile(
                               trailing: IconButton(
-                                onPressed: () {},
+                                onPressed: () => context.pushNamed(
+                                  ChatView.routeName,
+                                  extra: user,
+                                ),
                                 icon: Icon(
                                   Icons.message_outlined,
                                   color: kPrimaryColor,

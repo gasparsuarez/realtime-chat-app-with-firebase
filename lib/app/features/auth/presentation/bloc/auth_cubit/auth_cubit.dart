@@ -56,6 +56,7 @@ class AuthCubit extends Cubit<AuthState> {
   ///
   /// Listen authentication states
   ///
+
   void listenAuthState() {
     _streamSubscription = _listenAuthUsecase.call().listen(
       (user) async {

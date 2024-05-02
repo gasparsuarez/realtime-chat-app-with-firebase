@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_realtime_chat_app/app/core/core.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart';
@@ -25,6 +27,7 @@ class MainApp extends StatelessWidget {
     return BlocProvider(
       create: (_) => sl.get<AuthCubit>()..listenAuthState(),
       child: BlocConsumer<AuthCubit, AuthState>(
+        listenWhen: (previous, current) => previous.state != current.state,
         listener: (context, state) async {
           switch (state.state) {
             case Authenticated():

@@ -1,4 +1,6 @@
+import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/presentation/screens/screens.dart';
+import 'package:firebase_realtime_chat_app/app/features/messaging/messaging.dart';
 import 'package:firebase_realtime_chat_app/app/features/messaging/presentation/screens/messaging_screen.dart';
 import 'package:go_router/go_router.dart';
 
@@ -31,6 +33,15 @@ class AppRouter {
         path: '/messaging',
         name: MessagingScreen.routeName,
         builder: (_, state) => const MessagingScreen(),
+        routes: [
+          GoRoute(
+            path: 'chat_view',
+            name: ChatView.routeName,
+            builder: (_, state) => ChatView(
+              user: state.extra as UserEntity,
+            ),
+          ),
+        ],
       )
     ],
   );
