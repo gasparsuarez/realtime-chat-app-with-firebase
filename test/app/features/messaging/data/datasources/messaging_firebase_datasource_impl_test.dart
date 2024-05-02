@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/data/models/user_model.dart';
 import 'package:firebase_realtime_chat_app/app/features/messaging/data/datasources/messaging_firebase_datasource_impl.dart';
+import 'package:firebase_realtime_chat_app/app/features/messaging/data/models/chat_room_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -12,11 +13,13 @@ import 'messaging_firebase_datasource_impl_test.mocks.dart';
   MockSpec<CollectionReference>(),
   MockSpec<QuerySnapshot>(),
   MockSpec<QueryDocumentSnapshot>(),
+  MockSpec<DocumentReference>(),
 ])
 void main() {
   late MessagingFirebaseDatasourceImpl datasource;
   late MockFirebaseFirestore mockFirestore;
   late MockCollectionReference<Map<String, dynamic>> mockCollectionReference;
+  late MockDocumentReference<Map<String, dynamic>> mockDocumentReference;
   late QueryDocumentSnapshot<Map<String, dynamic>> mockQueryDocumentSnapshot;
   late MockQuerySnapshot<Map<String, dynamic>> mockQuerySnapshot;
 
@@ -26,6 +29,7 @@ void main() {
       mockCollectionReference = MockCollectionReference();
       mockQuerySnapshot = MockQuerySnapshot();
       mockQueryDocumentSnapshot = MockQueryDocumentSnapshot();
+      mockDocumentReference = MockDocumentReference();
       datasource = MessagingFirebaseDatasourceImpl(mockFirestore);
     },
   );
@@ -66,6 +70,35 @@ void main() {
         //Assert
         expect(stream, isA<Stream<List<UserModel>>>());
         expect(result, isA<List<UserModel>>());
+
+        verify(mockCollectionReference.snapshots()).called(1);
+      });
+
+      test('createChatRoom should create new data and save to firestore', () async {
+        //Arrange
+
+        final Map<String, dynamic> mockChatroomModel = {
+          'createdAt': DateTime(2024, 05, 12).toIso8601String(),
+          'members': ['memberone', 'membertwo']
+        };
+
+        when(mockFirestore.collection(any)).thenReturn(mockCollectionReference);
+
+        when(mockCollectionReference.add(mockChatroomModel)).thenAnswer(
+          (_) async => mockDocumentReference,
+        );
+
+        when(mockDocumentReference.update({'chatroomId': mockDocumentReference.id}))
+            .thenAnswer((_) async => Future<void>);
+
+        //Act
+        await datasource.newChatRoom(ChatRoomModel(
+          createdAt: DateTime(2024, 05, 12),
+          members: ['memberone', 'membertwo'],
+        ));
+
+        // Asserts
+        verify(mockCollectionReference.add(mockChatroomModel)).called(1);
       });
     },
   );

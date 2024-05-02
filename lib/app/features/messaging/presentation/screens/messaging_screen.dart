@@ -23,6 +23,9 @@ class MessagingScreen extends StatelessWidget {
                   SizedBox(
                     height: context.w * 0.02,
                   ),
+                  Divider(
+                    color: kPrimaryColor,
+                  ),
                   const UserListBuilder(),
                 ],
               ),

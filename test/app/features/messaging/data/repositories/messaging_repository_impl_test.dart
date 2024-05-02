@@ -1,3 +1,4 @@
+import 'package:firebase_realtime_chat_app/app/core/core.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/data/data.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart';
 import 'package:firebase_realtime_chat_app/app/features/messaging/messaging.dart';
@@ -52,5 +53,35 @@ void main() {
         expect(result, isA<List<UserEntity>>());
       },
     );
+
+    test('newChatRoom should return chatroomId', () async {
+      //Arrange
+      when(mockMessagingFirebaseDatasourceImpl.newChatRoom(any)).thenAnswer(
+        (_) async => Future.value('chatroomId'),
+      );
+      //Act
+      final result = await messagingRepositoryImpl.newChatRoom(
+        ChatRoomModel(createdAt: DateTime.now(), members: ['', '']),
+      );
+      //Assert
+
+      expect(result.whenOrNull(right: (id) => id), isA<String>());
+      expect(result.whenOrNull(right: (id) => id), 'chatroomId');
+    });
+
+    test('newChatRoom should return chatroomId', () async {
+      //Arrange
+      when(mockMessagingFirebaseDatasourceImpl.newChatRoom(any))
+          .thenThrow(Exception('Exception has been occurred'));
+
+      //Act
+      final result = await messagingRepositoryImpl.newChatRoom(
+        ChatRoomModel(createdAt: DateTime.now(), members: ['', '']),
+      );
+
+      //Assert
+      expect(result.whenOrNull(left: (failure) => failure), isA<Failure>());
+      expect(result.whenOrNull(left: (failure) => failure), Failure.unknown());
+    });
   });
 }

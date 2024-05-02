@@ -1,7 +1,9 @@
+import 'dart:developer';
+
 import 'package:firebase_realtime_chat_app/app/core/core.dart';
+import 'package:firebase_realtime_chat_app/app/features/auth/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:firebase_realtime_chat_app/app/features/messaging/presentation/blocs/cubit/listen_users_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserListBuilder extends StatelessWidget {
@@ -18,82 +20,81 @@ class UserListBuilder extends StatelessWidget {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            case Loaded(users: final users):
+            case Loaded(users: final usersList):
               return Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: context.w * 0.02,
                 ),
                 child: SizedBox(
                   height: context.h * 0.6,
-                  child: GridView.builder(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: context.w * 0.02,
-                      vertical: context.w * 0.02,
-                    ),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      mainAxisSpacing: context.h * 0.02,
-                      crossAxisSpacing: context.w * 0.02,
-                      mainAxisExtent: context.h * 0.12,
-                    ),
-                    itemCount: users.length,
-                    physics: const ClampingScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      final user = users[index];
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(
-                            context.w * 0.04,
-                          ),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(context.w * 0.02),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                  child: BlocBuilder<AuthCubit, AuthState>(
+                    builder: (context, state) {
+                      /// Remove actual user data for the list
+                      final newUserList = [...usersList]..removeWhere(
+                          (currentUser) => currentUser.uid == state.user?.uid,
+                        );
+
+                      return ListView.builder(
+                        itemCount: newUserList.length,
+                        physics: const ClampingScrollPhysics(),
+                        padding: EdgeInsets.zero,
+                        itemBuilder: (context, index) {
+                          final user = newUserList[index];
+                          return Card(
+                            child: ListTile(
+                              trailing: IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.message_outlined,
+                                  color: kPrimaryColor,
+                                ),
+                              ),
+                              title: Row(
                                 children: [
-                                  Container(
-                                    width: context.w * 0.10,
-                                    height: context.w * 0.10,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                        color: kPrimaryColor,
-                                      ),
-                                    ),
-                                    child: Center(
-                                      child: CustomText(
-                                        text: user.name[0].toUpperCase(),
-                                        textColor: kBlackColor,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: context.w * 0.06,
-                                      ),
-                                    ),
+                                  CustomText(
+                                    text: '${user.name} ${user.lastName}',
+                                    textColor: kPrimaryColor,
+                                    fontWeight: FontWeight.w600,
                                   ),
-                                  const Spacer(),
+                                  SizedBox(
+                                    width: context.w * 0.02,
+                                  ),
                                   Container(
-                                    width: context.w * 0.026,
-                                    height: context.w * 0.026,
+                                    width: context.w * 0.032,
+                                    height: context.w * 0.032,
                                     decoration: BoxDecoration(
                                       color: user.isOnlineUser ? Colors.green : Colors.grey,
                                       shape: BoxShape.circle,
                                     ),
-                                  ),
+                                  )
                                 ],
                               ),
-                              Flexible(
-                                child: CustomText(
-                                  text: '${user.name} ${user.lastName}ASDASDASDASDASDA',
-                                  textColor: kBlackColor,
+                              subtitle: CustomText(
+                                text: user.email,
+                                textColor: kPrimaryColor,
+                              ),
+                              leading: Container(
+                                width: context.w * 0.10,
+                                height: context.w * 0.10,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: kPrimaryColor,
+                                  ),
                                 ),
-                              )
-                            ],
-                          ),
-                        ),
+                                child: Center(
+                                  child: CustomText(
+                                    text: user.name[0].toUpperCase(),
+                                    textColor: kBlackColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: context.w * 0.04,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
                       );
                     },
                   ),
