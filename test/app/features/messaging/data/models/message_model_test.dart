@@ -5,7 +5,12 @@ void main() {
   final mockDate = DateTime(2024, 05, 5);
 
   final mockModel = MessageModel(
-      createdAt: mockDate, from: 'from', to: 'to', content: 'content', messageId: 'id');
+    createdAt: mockDate,
+    from: 'from',
+    to: 'to',
+    content: 'content',
+    messageId: 'id',
+  );
 
   group('Message Model', () {
     test('Should create a valid model', () async {
