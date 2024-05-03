@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_realtime_chat_app/app/core/core.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/data/data.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart';
 import 'package:firebase_realtime_chat_app/app/features/messaging/messaging.dart';
@@ -21,6 +23,13 @@ void main() {
         mockMessagingFirebaseDatasourceImpl,
       );
     },
+  );
+
+  final mockModel = MessageModel(
+    createdAt: DateTime(2024, 05, 5),
+    from: 'from',
+    to: 'to',
+    content: 'content',
   );
 
   group('Messaging Repository Impl', () {
@@ -52,5 +61,29 @@ void main() {
         expect(result, isA<List<UserEntity>>());
       },
     );
+
+    test('sendMessage should return true when is success', () async {
+      //Arrange
+      when(mockMessagingFirebaseDatasourceImpl.sendMessage(any))
+          .thenAnswer((_) async => Future<void>);
+
+      //Act
+      final result = await messagingRepositoryImpl.sendMessage(mockModel);
+
+      //Assert
+      expect(result.whenOrNull(right: (success) => success), true);
+    });
+
+    test('sendMessage should return Failure when throw exception', () async {
+      //Arrange
+      when(mockMessagingFirebaseDatasourceImpl.sendMessage(any))
+          .thenThrow(FirebaseException(plugin: 'plugin'));
+
+      //Act
+      final result = await messagingRepositoryImpl.sendMessage(mockModel);
+
+      //Assert
+      expect(result.whenOrNull(left: (failure) => failure), isA<Failure>());
+    });
   });
 }
