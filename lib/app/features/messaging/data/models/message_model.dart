@@ -16,11 +16,11 @@ class MessageModel {
   });
 
   factory MessageModel.fromJson(Map<String, dynamic> json) => MessageModel(
-        createdAt: json['createdAt'],
-        from: json['from'],
-        to: json['to'],
-        content: json['content'],
-      );
+      createdAt: DateTime.parse(json['createdAt']),
+      from: json['from'],
+      to: json['to'],
+      content: json['content'],
+      messageId: json['messageId']);
 
   Map<String, dynamic> toJson() => {
         'createdAt': createdAt.toIso8601String(),
@@ -29,11 +29,11 @@ class MessageModel {
         'content': content,
       };
 
-  MessageEntity toEntity() => MessageEntity(
-        messageId: messageId!,
-        createdAt: createdAt,
-        from: from,
-        to: to,
-        content: content,
+  static MessageEntity toEntity(MessageModel model) => MessageEntity(
+        messageId: model.messageId ?? '',
+        createdAt: model.createdAt,
+        from: model.from,
+        to: model.to,
+        content: model.content,
       );
 }

@@ -18,12 +18,10 @@ class MessagingFirebaseDatasourceImpl implements MessagingFirebaseDatasource {
 
   @override
   Future<void> sendMessage(MessageModel model) async {
-    await _firestore
-        .collection('chatRooms/${getMessageCollection(model.from, model.to)}/messages')
-        .add(model.toJson())
-        .then((doc) async {
-      await doc.update({'messageId': doc.id});
-    });
+    final ref =
+        _firestore.collection('chatRooms/${getMessageCollection(model.from, model.to)}/messages');
+    final time = DateTime.now().millisecondsSinceEpoch.toString();
+    await ref.doc(time).set(model.toJson());
   }
 
   @override

@@ -81,7 +81,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             AlertUtil(context).showLoader();
                             break;
                           case Loaded(message: final message):
-                            AlertUtil(context).hideAlert();
                             AlertUtil(context).showAlert(
                               title: 'Success',
                               description: message,

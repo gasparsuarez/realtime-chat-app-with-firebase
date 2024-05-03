@@ -48,7 +48,7 @@ void main() {
       },
       act: (cubit) => cubit.listenChatMessages('id'),
       expect: () => [
-        const ListenChatMessagesState.loading(),
+        const ListenChatMessagesState.listen(),
         ListenChatMessagesState.listening(messages: mockList),
       ],
     );

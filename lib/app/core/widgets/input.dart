@@ -4,14 +4,14 @@ class Input extends StatelessWidget {
   final String? labelText;
   final TextEditingController? controller;
   final bool? obscureText;
-  final bool? filled;
+  final bool filled;
   final bool validate;
   const Input({
     super.key,
     this.labelText,
     this.controller,
     this.obscureText,
-    this.filled,
+    this.filled = false,
     this.validate = true,
   });
 
@@ -25,7 +25,7 @@ class Input extends StatelessWidget {
       decoration: InputDecoration(
         contentPadding: EdgeInsets.zero,
         labelText: labelText,
-        fillColor: filled! ? Colors.white : null,
+        fillColor: filled ? Colors.white : null,
         filled: filled,
       ),
     );

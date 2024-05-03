@@ -38,10 +38,11 @@ class MessagingRepositoryImpl implements MessagingRepository {
     final mappedStream = _datasource.listenChatMessages(chatroomId).map(
           (event) => event
               .map(
-                (e) => e.toEntity(),
+                (e) => MessageModel.toEntity(e),
               )
               .toList(),
         );
+
     return mappedStream;
   }
 }

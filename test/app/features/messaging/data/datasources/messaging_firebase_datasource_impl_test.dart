@@ -82,15 +82,18 @@ void main() {
         );
 
         //Arrange
+
         when(mockFirestore.collection(any)).thenReturn(mockCollectionReference);
 
-        when(mockCollectionReference.add(any)).thenAnswer((_) async => mockDocumentReference);
+        when(mockCollectionReference.doc(any)).thenReturn(mockDocumentReference);
+
+        when(mockDocumentReference.set(mockModel.toJson())).thenAnswer((_) async => Future<void>);
 
         //Act
         await datasource.sendMessage(mockModel);
 
         //Assert
-        verify(mockCollectionReference.add(mockModel.toJson())).called(1);
+        verify(mockDocumentReference.set(mockModel.toJson())).called(1);
       });
 
       test('listenChatMessages should Stream List with Message Model', () async {
@@ -100,7 +103,7 @@ void main() {
         ];
 
         final Map<String, dynamic> mockData = {
-          'createdAt': DateTime.now(),
+          'createdAt': DateTime.now().toIso8601String(),
           'from': 'from',
           'to': 'to',
           'content': 'content',

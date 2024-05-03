@@ -14,7 +14,7 @@ class ListenChatMessagesCubit extends Cubit<ListenChatMessagesState> {
   ListenChatMessagesCubit(this._usecase) : super(const ListenChatMessagesState.initial());
 
   void listenChatMessages(String chatroomId) {
-    emit(const ListenChatMessagesState.loading());
+    emit(const ListenChatMessagesState.listen());
 
     _streamSubscription = _usecase.call(chatroomId).listen((event) {
       emit(ListenChatMessagesState.listening(messages: event));
