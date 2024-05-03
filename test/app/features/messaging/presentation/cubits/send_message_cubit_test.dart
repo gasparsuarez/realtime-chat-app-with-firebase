@@ -38,15 +38,15 @@ void main() {
     });
 
     blocTest<SendMessageCubit, SendMessageState>(
-      'emits [Loading, Loaded] when sendMessage is added.',
+      'emits [Sending, Sent] when sendMessage is added.',
       build: () {
         when(mockSendMessageUsecase.call(any)).thenAnswer((_) async => Either.right(true));
         return sendMessageCubit;
       },
       act: (cubit) => cubit.sendMessage(mockModel),
       expect: () => [
-        const SendMessageState.loading(),
-        const SendMessageState.loaded(),
+        const SendMessageState.sending(),
+        const SendMessageState.sent(),
       ],
     );
 
@@ -60,7 +60,7 @@ void main() {
       },
       act: (cubit) => cubit.sendMessage(mockModel),
       expect: () => [
-        const SendMessageState.loading(),
+        const SendMessageState.sending(),
         const SendMessageState.error('Unknown error'),
       ],
     );

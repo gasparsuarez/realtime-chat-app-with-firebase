@@ -5,6 +5,7 @@ import 'package:firebase_realtime_chat_app/app/features/auth/data/data.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/domain/entities/user_entity.dart';
 import 'package:firebase_realtime_chat_app/app/features/messaging/data/models/message_model.dart';
 import 'package:firebase_realtime_chat_app/app/features/messaging/domain/datasource/datasource.dart';
+import 'package:firebase_realtime_chat_app/app/features/messaging/domain/entities/message_entity.dart';
 import 'package:firebase_realtime_chat_app/app/features/messaging/domain/repositories/repositories.dart';
 
 class MessagingRepositoryImpl implements MessagingRepository {
@@ -30,5 +31,17 @@ class MessagingRepositoryImpl implements MessagingRepository {
     } on Exception catch (e) {
       return Either.left(ExceptionHandler.handleException(e));
     }
+  }
+
+  @override
+  Stream<List<MessageEntity>> listenChatMessages(String chatroomId) {
+    final mappedStream = _datasource.listenChatMessages(chatroomId).map(
+          (event) => event
+              .map(
+                (e) => e.toEntity(),
+              )
+              .toList(),
+        );
+    return mappedStream;
   }
 }

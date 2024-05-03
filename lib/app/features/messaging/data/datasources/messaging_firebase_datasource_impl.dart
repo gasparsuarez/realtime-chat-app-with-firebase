@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/data/models/user_model.dart';
-import 'package:firebase_realtime_chat_app/app/features/messaging/data/models/message_model.dart';
-import 'package:firebase_realtime_chat_app/app/features/messaging/domain/datasource/datasource.dart';
 import 'package:firebase_realtime_chat_app/app/features/messaging/messaging.dart';
 
 class MessagingFirebaseDatasourceImpl implements MessagingFirebaseDatasource {
@@ -26,5 +24,16 @@ class MessagingFirebaseDatasourceImpl implements MessagingFirebaseDatasource {
         .then((doc) async {
       await doc.update({'messageId': doc.id});
     });
+  }
+
+  @override
+  Stream<List<MessageModel>> listenChatMessages(String chatroomId) {
+    return _firestore.collection('chatRooms/$chatroomId/messages').snapshots().map(
+          (event) => event.docs
+              .map(
+                (e) => MessageModel.fromJson(e.data()),
+              )
+              .toList(),
+        );
   }
 }

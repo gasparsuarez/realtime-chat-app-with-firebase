@@ -15,12 +15,12 @@ class SendMessageCubit extends Cubit<SendMessageState> {
   ///  Function for send messages
   ///
   void sendMessage(MessageModel model) async {
-    emit(const SendMessageState.loading());
+    emit(const SendMessageState.sending());
     final result = await _usecase.call(model);
 
     switch (result) {
       case Right():
-        return emit(const SendMessageState.loaded());
+        return emit(const SendMessageState.sent());
       case Left():
         return emit(SendMessageState.error(getFailureMessage(result.left)));
       default:

@@ -5,12 +5,14 @@ class Input extends StatelessWidget {
   final TextEditingController? controller;
   final bool? obscureText;
   final bool? filled;
+  final bool validate;
   const Input({
     super.key,
     this.labelText,
     this.controller,
     this.obscureText,
     this.filled,
+    this.validate = true,
   });
 
   @override
@@ -18,7 +20,7 @@ class Input extends StatelessWidget {
     return TextFormField(
       controller: controller,
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      validator: (value) => value!.isEmpty ? '' : null,
+      validator: validate ? (value) => value!.isEmpty ? '' : null : null,
       obscureText: obscureText ?? false,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.zero,
