@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/data/models/user_model.dart';
 import 'package:firebase_realtime_chat_app/app/features/messaging/data/models/message_model.dart';
 import 'package:firebase_realtime_chat_app/app/features/messaging/domain/datasource/datasource.dart';
+import 'package:firebase_realtime_chat_app/app/features/messaging/messaging.dart';
 
 class MessagingFirebaseDatasourceImpl implements MessagingFirebaseDatasource {
   final FirebaseFirestore _firestore;
@@ -20,7 +21,7 @@ class MessagingFirebaseDatasourceImpl implements MessagingFirebaseDatasource {
   @override
   Future<void> sendMessage(MessageModel model) async {
     await _firestore
-        .collection('chatRooms/${model.from}_${model.to}/messages')
+        .collection('chatRooms/${getMessageCollection(model.from, model.to)}/messages')
         .add(model.toJson())
         .then((doc) async {
       await doc.update({'messageId': doc.id});
