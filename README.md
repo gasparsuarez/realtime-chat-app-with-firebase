@@ -16,7 +16,12 @@ I am building chat app using firebase, clean architecture with vertical slicing 
 - build_runner [Code generation]
 
 **Testing** 
-- Mockito [With code generation]
-- Bloc_test 
+- mockito [With code generation]
+- bloc_test 
 
+**Fatures**
+
+- ✅ Authentication with tests
+- ✅ Messaging with tests
+- ⏳ User Profile 
 

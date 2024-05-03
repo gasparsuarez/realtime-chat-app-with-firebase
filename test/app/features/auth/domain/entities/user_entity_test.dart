@@ -24,6 +24,29 @@ void main() {
           expect(user.isOnline, 1);
         },
       );
+
+      test('isOnlineUser should return true if user is online', () {
+        final user = UserEntity(
+          uid: 'uid',
+          name: 'name',
+          email: 'email',
+          lastName: 'lastName',
+          isOnline: 1,
+        );
+
+        expect(user.isOnlineUser, true);
+      });
+      test('fullName should return name with LastName and capitalize first letter', () {
+        final user = UserEntity(
+          uid: 'uid',
+          name: 'name',
+          email: 'email',
+          lastName: 'lastName',
+          isOnline: 1,
+        );
+
+        expect(user.fullName, 'Name LastName');
+      });
     },
   );
 }

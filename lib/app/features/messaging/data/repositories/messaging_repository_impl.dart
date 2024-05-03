@@ -36,11 +36,7 @@ class MessagingRepositoryImpl implements MessagingRepository {
   @override
   Stream<List<MessageEntity>> listenChatMessages(String chatroomId) {
     final mappedStream = _datasource.listenChatMessages(chatroomId).map(
-          (event) => event
-              .map(
-                (e) => MessageModel.toEntity(e),
-              )
-              .toList(),
+          (event) => event.map((e) => MessageModel.toEntity(e)).toList(),
         );
 
     return mappedStream;
