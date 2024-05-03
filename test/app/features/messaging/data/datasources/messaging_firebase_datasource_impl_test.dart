@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/data/models/user_model.dart';
 import 'package:firebase_realtime_chat_app/app/features/messaging/data/datasources/messaging_firebase_datasource_impl.dart';
+import 'package:firebase_realtime_chat_app/app/features/messaging/messaging.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -71,6 +72,26 @@ void main() {
         expect(result, isA<List<UserModel>>());
 
         verify(mockCollectionReference.snapshots()).called(1);
+      });
+
+      test('sendMessage should add message to db', () async {
+        final mockModel = MessageModel(
+          createdAt: DateTime(2024, 05, 5),
+          from: 'from',
+          to: 'to',
+          content: 'content',
+        );
+
+        //Arrange
+        when(mockFirestore.collection(any)).thenReturn(mockCollectionReference);
+
+        when(mockCollectionReference.add(any)).thenAnswer((_) async => mockDocumentReference);
+
+        //Act
+        await datasource.sendMessage(mockModel);
+
+        //Assert
+        verify(mockCollectionReference.add(mockModel.toJson())).called(1);
       });
     },
   );
