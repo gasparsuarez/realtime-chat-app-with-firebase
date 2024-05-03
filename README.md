@@ -2,6 +2,13 @@
 
 I am building chat app using firebase, clean architecture with vertical slicing and others technologies. I also plan to implement unit tests with mockito and other procedures when i finish each features.
 
+## Installation
+
+```
+flutter pub get
+dart run build_runner build
+```
+
 ## Libraries
 
 **Client**
@@ -14,14 +21,22 @@ I am building chat app using firebase, clean architecture with vertical slicing 
 - get_It [Dependency Injection]
 - go_router [App routing]
 - build_runner [Code generation]
-
-**Testing** 
-- mockito [With code generation]
 - bloc_test 
+- mockito [With code generation]
 
-**Fatures**
+## Testing 
 
-- ✅ Authentication with tests
-- ✅ Messaging with tests
+Execute the following commands for tests: 
+
+```
+dart run build_runner build
+flutter run test --coverage
+```
+
+
+**✅ Features and Tests**
+
+- Authentication with tests
+- Messaging with tests
 - ⏳ User Profile 
 
