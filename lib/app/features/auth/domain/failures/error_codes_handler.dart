@@ -13,6 +13,8 @@ String parseAuthCodeToMessage(String code) {
       return 'User not corresponding to the given email';
     case 'invalid-credential':
       return 'Wrong user or password';
+    case 'network-request-failed':
+      return 'Connection error';
     default:
       return 'Unknown error';
   }

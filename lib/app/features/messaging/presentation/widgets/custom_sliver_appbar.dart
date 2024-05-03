@@ -1,5 +1,6 @@
 import 'package:firebase_realtime_chat_app/app/core/core.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/presentation/bloc/auth_cubit/auth_cubit.dart';
+import 'package:firebase_realtime_chat_app/app/features/messaging/messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -29,24 +30,9 @@ class CustomSliverAppbar extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          Container(
-                            width: context.w * 0.12,
-                            height: context.w * 0.12,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: Colors.green,
-                              ),
-                            ),
-                            child: Center(
-                              child: CustomText(
-                                text: user.name[0].toUpperCase(),
-                                textColor: kBlackColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: context.w * 0.06,
-                              ),
-                            ),
+                          UserAvatarCircle(
+                            user: user,
+                            size: 0.12,
                           ),
                           SizedBox(
                             width: context.w * 0.04,
@@ -55,7 +41,7 @@ class CustomSliverAppbar extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CustomText(
-                                text: '${user.name} ${user.lastName}',
+                                text: user.fullName,
                                 fontSize: context.w * 0.06,
                                 textColor: kBlackColor,
                                 fontWeight: FontWeight.bold,

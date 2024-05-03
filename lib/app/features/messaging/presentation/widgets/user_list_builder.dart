@@ -1,9 +1,7 @@
-import 'dart:developer';
-
 import 'package:firebase_realtime_chat_app/app/core/core.dart';
+import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:firebase_realtime_chat_app/app/features/messaging/messaging.dart';
-import 'package:firebase_realtime_chat_app/app/features/messaging/presentation/blocs/cubit/listen_users_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -42,62 +40,8 @@ class UserListBuilder extends StatelessWidget {
                         padding: EdgeInsets.zero,
                         itemBuilder: (context, index) {
                           final user = newUserList[index];
-                          return Card(
-                            child: ListTile(
-                              trailing: IconButton(
-                                onPressed: () => context.pushNamed(
-                                  ChatView.routeName,
-                                  extra: user,
-                                ),
-                                icon: Icon(
-                                  Icons.message_outlined,
-                                  color: kPrimaryColor,
-                                ),
-                              ),
-                              title: Row(
-                                children: [
-                                  CustomText(
-                                    text: '${user.name} ${user.lastName}',
-                                    textColor: kPrimaryColor,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  SizedBox(
-                                    width: context.w * 0.02,
-                                  ),
-                                  Container(
-                                    width: context.w * 0.032,
-                                    height: context.w * 0.032,
-                                    decoration: BoxDecoration(
-                                      color: user.isOnlineUser ? Colors.green : Colors.grey,
-                                      shape: BoxShape.circle,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              subtitle: CustomText(
-                                text: user.email,
-                                textColor: kPrimaryColor,
-                              ),
-                              leading: Container(
-                                width: context.w * 0.10,
-                                height: context.w * 0.10,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: kPrimaryColor,
-                                  ),
-                                ),
-                                child: Center(
-                                  child: CustomText(
-                                    text: user.name[0].toUpperCase(),
-                                    textColor: kBlackColor,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: context.w * 0.04,
-                                  ),
-                                ),
-                              ),
-                            ),
+                          return _UserTile(
+                            user: user,
                           );
                         },
                       );
@@ -113,6 +57,57 @@ class UserListBuilder extends StatelessWidget {
               return const SizedBox.shrink();
           }
         },
+      ),
+    );
+  }
+}
+
+///
+/// Tile with User data
+///
+class _UserTile extends StatelessWidget {
+  final UserEntity user;
+  const _UserTile({
+    required this.user,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: ListTile(
+        trailing: IconButton(
+          onPressed: () => context.pushNamed(
+            ChatView.routeName,
+            extra: user,
+          ),
+          icon: Icon(
+            Icons.message_outlined,
+            color: kPrimaryColor,
+          ),
+        ),
+        title: Row(
+          children: [
+            CustomText(
+              text: user.fullName,
+              textColor: kPrimaryColor,
+              fontWeight: FontWeight.w600,
+            ),
+            SizedBox(
+              width: context.w * 0.02,
+            ),
+            AuthStatusCircle(
+              isOnline: user.isOnlineUser,
+            )
+          ],
+        ),
+        subtitle: CustomText(
+          text: user.email,
+          textColor: kPrimaryColor,
+        ),
+        leading: UserAvatarCircle(
+          size: 0.10,
+          user: user,
+        ),
       ),
     );
   }

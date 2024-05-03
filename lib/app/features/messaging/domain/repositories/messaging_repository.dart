@@ -4,5 +4,5 @@ import 'package:firebase_realtime_chat_app/app/features/messaging/data/data.dart
 
 abstract class MessagingRepository {
   Stream<List<UserEntity>> listenUsers();
-  Future<Either<Failure, String>> newChatRoom(ChatRoomModel model);
+  Future<Either<Failure, bool>> sendMessage(MessageModel model);
 }

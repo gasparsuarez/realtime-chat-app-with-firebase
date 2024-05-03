@@ -3,7 +3,7 @@ import 'package:firebase_realtime_chat_app/app/core/network/exception_handler.da
 import 'package:firebase_realtime_chat_app/app/core/network/failures/failure.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/data/data.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/domain/entities/user_entity.dart';
-import 'package:firebase_realtime_chat_app/app/features/messaging/data/models/chat_room_model.dart';
+import 'package:firebase_realtime_chat_app/app/features/messaging/data/models/message_model.dart';
 import 'package:firebase_realtime_chat_app/app/features/messaging/domain/datasource/datasource.dart';
 import 'package:firebase_realtime_chat_app/app/features/messaging/domain/repositories/repositories.dart';
 
@@ -23,10 +23,10 @@ class MessagingRepositoryImpl implements MessagingRepository {
   }
 
   @override
-  Future<Either<Failure, String>> newChatRoom(ChatRoomModel model) async {
+  Future<Either<Failure, bool>> sendMessage(MessageModel model) async {
     try {
-      final chatRoomId = await _datasource.newChatRoom(model);
-      return Either.right(chatRoomId);
+      await _datasource.sendMessage(model);
+      return Either.right(true);
     } on Exception catch (e) {
       return Either.left(ExceptionHandler.handleException(e));
     }

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/data/models/user_model.dart';
 import 'package:firebase_realtime_chat_app/app/features/messaging/data/models/chat_room_model.dart';
+import 'package:firebase_realtime_chat_app/app/features/messaging/data/models/message_model.dart';
 import 'package:firebase_realtime_chat_app/app/features/messaging/domain/datasource/datasource.dart';
 
 class MessagingFirebaseDatasourceImpl implements MessagingFirebaseDatasource {
@@ -19,12 +20,25 @@ class MessagingFirebaseDatasourceImpl implements MessagingFirebaseDatasource {
 
   @override
   Future<String> newChatRoom(ChatRoomModel model) async {
-    final collectionReference = _firestore.collection('chatRooms');
     late String chatRoomId;
-    await collectionReference.add(model.toJson()).then((doc) async {
+
+    await _firestore
+        .collection('chatRooms/${model.from}_${model.to}/chat_detail')
+        .add(model.toJson())
+        .then((doc) async {
       await doc.update({'chatroomId': doc.id});
       chatRoomId = doc.id;
     });
     return chatRoomId;
+  }
+
+  @override
+  Future<void> sendMessage(MessageModel model) async {
+    await _firestore
+        .collection('chatRooms/${model.from}_${model.to}/messages')
+        .add(model.toJson())
+        .then((doc) async {
+      await doc.update({'messageId': doc.id});
+    });
   }
 }

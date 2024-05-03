@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_realtime_chat_app/app/core/core.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart';

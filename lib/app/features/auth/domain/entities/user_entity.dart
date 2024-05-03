@@ -1,3 +1,5 @@
+import 'package:firebase_realtime_chat_app/app/core/core.dart';
+
 class UserEntity {
   final String uid;
   final String name;
@@ -14,4 +16,6 @@ class UserEntity {
   });
 
   bool get isOnlineUser => isOnline == 1 ? true : false;
+
+  String get fullName => '${name.capitalize} ${lastName.capitalize}';
 }

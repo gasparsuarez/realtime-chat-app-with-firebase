@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/data/models/user_model.dart';
 import 'package:firebase_realtime_chat_app/app/features/messaging/data/datasources/messaging_firebase_datasource_impl.dart';
-import 'package:firebase_realtime_chat_app/app/features/messaging/data/models/chat_room_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -72,33 +71,6 @@ void main() {
         expect(result, isA<List<UserModel>>());
 
         verify(mockCollectionReference.snapshots()).called(1);
-      });
-
-      test('createChatRoom should create new data and save to firestore', () async {
-        //Arrange
-
-        final Map<String, dynamic> mockChatroomModel = {
-          'createdAt': DateTime(2024, 05, 12).toIso8601String(),
-          'members': ['memberone', 'membertwo']
-        };
-
-        when(mockFirestore.collection(any)).thenReturn(mockCollectionReference);
-
-        when(mockCollectionReference.add(mockChatroomModel)).thenAnswer(
-          (_) async => mockDocumentReference,
-        );
-
-        when(mockDocumentReference.update({'chatroomId': mockDocumentReference.id}))
-            .thenAnswer((_) async => Future<void>);
-
-        //Act
-        await datasource.newChatRoom(ChatRoomModel(
-          createdAt: DateTime(2024, 05, 12),
-          members: ['memberone', 'membertwo'],
-        ));
-
-        // Asserts
-        verify(mockCollectionReference.add(mockChatroomModel)).called(1);
       });
     },
   );

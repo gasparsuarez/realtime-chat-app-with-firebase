@@ -4,11 +4,13 @@ class Input extends StatelessWidget {
   final String? labelText;
   final TextEditingController? controller;
   final bool? obscureText;
+  final bool? filled;
   const Input({
     super.key,
     this.labelText,
     this.controller,
     this.obscureText,
+    this.filled,
   });
 
   @override
@@ -21,6 +23,8 @@ class Input extends StatelessWidget {
       decoration: InputDecoration(
         contentPadding: EdgeInsets.zero,
         labelText: labelText,
+        fillColor: filled! ? Colors.white : null,
+        filled: filled,
       ),
     );
   }
