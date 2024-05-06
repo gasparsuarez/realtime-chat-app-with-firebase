@@ -21,11 +21,21 @@ class MessageBubble extends StatelessWidget {
           mainAxisAlignment: sendMe ? MainAxisAlignment.end : MainAxisAlignment.start,
           children: [
             Container(
-              constraints: BoxConstraints(maxWidth: context.w * 0.8),
+              constraints: BoxConstraints(
+                maxWidth: context.w * 0.8,
+              ),
               decoration: BoxDecoration(
-                border: Border.all(
-                  color: kBlackColor,
-                ),
+                color: sendMe ? kPrimaryColor : Colors.teal,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black45,
+                    offset: Offset(
+                      0,
+                      2,
+                    ),
+                    blurRadius: 2,
+                  )
+                ],
                 borderRadius: sendMe
                     ? BorderRadius.only(
                         topLeft: Radius.circular(
@@ -63,11 +73,11 @@ class MessageBubble extends StatelessWidget {
                 children: [
                   CustomText(
                     text: message.content,
-                    textColor: kBlackColor,
+                    textColor: Colors.white,
                   ),
                   CustomText(
                     text: _formatTime(message.createdAt),
-                    textColor: kBlackColor,
+                    textColor: Colors.white60,
                     fontSize: context.w * 0.028,
                   ),
                 ],
