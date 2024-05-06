@@ -1,8 +1,10 @@
 import 'package:firebase_realtime_chat_app/app/core/core.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:firebase_realtime_chat_app/app/features/messaging/messaging.dart';
+import 'package:firebase_realtime_chat_app/app/features/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class CustomAppbar extends StatelessWidget {
   const CustomAppbar({super.key});
@@ -91,11 +93,11 @@ class _PopupMenuState extends State<_PopupMenu> {
           iconColor: Colors.white,
           onSelected: (value) {
             switch (value) {
+              case _PopupButtonTypes.profile:
+                context.pushNamed(UserProfileScreen.routeName);
+                break;
               case _PopupButtonTypes.exit:
                 context.read<AuthCubit>().signOut();
-                break;
-              case _PopupButtonTypes.profile:
-                //TODO: Go profile
                 break;
               default:
                 null;

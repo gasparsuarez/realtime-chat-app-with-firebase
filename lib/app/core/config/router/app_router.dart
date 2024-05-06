@@ -1,6 +1,7 @@
 import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/presentation/screens/screens.dart';
 import 'package:firebase_realtime_chat_app/app/features/messaging/messaging.dart';
+import 'package:firebase_realtime_chat_app/app/features/profile/profile.dart';
 import 'package:go_router/go_router.dart';
 
 ///
@@ -39,6 +40,11 @@ class AppRouter {
             builder: (_, state) => ChatView(
               contact: state.extra as UserEntity,
             ),
+          ),
+          GoRoute(
+            path: 'profile',
+            name: UserProfileScreen.routeName,
+            builder: (_, state) => const UserProfileScreen(),
           ),
         ],
       )
