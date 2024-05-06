@@ -42,8 +42,14 @@ void main() {
 
       //Assert
 
-      expect(result.whenOrNull(right: (success) => success), isA<bool>());
-      expect(result.whenOrNull(right: (success) => success), true);
+      expect(
+        result.whenOrNull(right: (success) => success),
+        isA<bool>(),
+      );
+      expect(
+        result.whenOrNull(right: (success) => success),
+        isTrue,
+      );
     });
 
     test('Should return failure', () async {
@@ -56,8 +62,14 @@ void main() {
       final result = await usecase.call(mockModel);
 
       //Assert
-      expect(result.whenOrNull(left: (failure) => failure), isA<Failure>());
-      expect(result.whenOrNull(left: (failure) => failure), Failure.unknown());
+      expect(
+        result.whenOrNull(left: (failure) => failure),
+        isA<Failure>(),
+      );
+      expect(
+        result.whenOrNull(left: (failure) => failure),
+        Failure.unknown(),
+      );
     });
   });
 }

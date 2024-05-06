@@ -92,10 +92,15 @@ void main() {
 
           //Act
           final result = await authRepositoryImpl.signIn('', '');
+
           //Assert
           expect(
             result.whenOrNull(right: (value) => value),
             isA<bool>(),
+          );
+          expect(
+            result.whenOrNull(right: (value) => value),
+            isTrue,
           );
         },
       );
@@ -133,7 +138,10 @@ void main() {
           final result = await authRepositoryImpl.signOut();
 
           // Expect
-          expect(result.whenOrNull(right: (value) => value), true);
+          expect(
+            result.whenOrNull(right: (value) => value),
+            isTrue,
+          );
         },
       );
       test(

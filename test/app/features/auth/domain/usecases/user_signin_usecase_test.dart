@@ -37,7 +37,7 @@ void main() {
         );
         expect(
           result.whenOrNull(right: (value) => value),
-          true,
+          isTrue,
         );
       });
 

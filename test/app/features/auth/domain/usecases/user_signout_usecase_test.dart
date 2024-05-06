@@ -32,7 +32,10 @@ void main() {
       final result = await usecase.call();
 
       // expect
-      expect(result.whenOrNull(right: (value) => value), true);
+      expect(
+        result.whenOrNull(right: (value) => value),
+        isTrue,
+      );
     },
   );
 

@@ -60,7 +60,10 @@ void main() {
           final result = await userRegisterUsecase.call(model);
 
           //Assert
-          expect(result.whenOrNull(left: (failure) => failure), isA<Failure>());
+          expect(
+            result.whenOrNull(left: (failure) => failure),
+            isA<Failure>(),
+          );
         },
       );
     },
