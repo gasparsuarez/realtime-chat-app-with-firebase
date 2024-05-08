@@ -5,6 +5,7 @@ import 'package:firebase_realtime_chat_app/app/features/auth/data/repositories/a
 import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart';
 import 'package:firebase_realtime_chat_app/app/features/auth/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:firebase_realtime_chat_app/app/features/messaging/messaging.dart';
+import 'package:firebase_realtime_chat_app/app/features/profile/profile.dart';
 import 'package:get_it/get_it.dart';
 
 final sl = GetIt.instance;
@@ -23,17 +24,26 @@ class ServiceLocator {
     ///
     //* Auth
     sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(sl()));
+
     //* Messaging
     sl.registerLazySingleton<MessagingRepository>(() => MessagingRepositoryImpl(sl()));
+
+    //* Profile
+    sl.registerLazySingleton<UserProfileRepository>(() => UserProfileRepositoryImpl(sl()));
 
     ///
     /// Datasources
     ///
     //* Auth
     sl.registerLazySingleton<AuthFirebaseDatasource>(() => AuthFirebaseDatasourceImpl(sl(), sl()));
+
     //* Messaging
     sl.registerLazySingleton<MessagingFirebaseDatasource>(
         () => MessagingFirebaseDatasourceImpl(sl()));
+
+    //* Profile
+    sl.registerLazySingleton<ProfileFirebaseDatasource>(
+        () => ProfileFirebaseDatasourceImpl(sl(), sl()));
 
     ///
     /// Use cases
