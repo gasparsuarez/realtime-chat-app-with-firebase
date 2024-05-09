@@ -1,4 +1,5 @@
 import 'package:firebase_realtime_chat_app/app/core/core.dart';
+import 'package:firebase_realtime_chat_app/app/features/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -19,6 +20,10 @@ class ProfileAppbar extends StatelessWidget {
               color: kPrimaryColor,
             ),
           ),
+
+          ///
+          /// User Avatar
+          ///
           SafeArea(
             child: Container(
               margin: EdgeInsets.only(top: context.h * 0.02),
@@ -37,6 +42,10 @@ class ProfileAppbar extends StatelessWidget {
               ),
             ),
           ),
+
+          ///
+          /// Edit button
+          ///
           Positioned(
             top: context.h * 0.2,
             left: context.w * 0.56,
@@ -53,10 +62,13 @@ class ProfileAppbar extends StatelessWidget {
                   strokeAlign: BorderSide.strokeAlignOutside,
                 ),
               ),
-              child: Icon(
-                Icons.edit,
-                color: Colors.white,
-                size: context.w * 0.054,
+              child: GestureDetector(
+                onTap: () => _showChangeAvatarOptions(context),
+                child: Icon(
+                  Icons.edit,
+                  color: Colors.white,
+                  size: context.w * 0.054,
+                ),
               ),
             ),
           ),
@@ -74,6 +86,39 @@ class ProfileAppbar extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  ///
+  /// Open modal for select Camera or photo library
+  ///
+  _showChangeAvatarOptions(BuildContext context) {
+    return showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          width: context.w,
+          height: context.h * 0.2,
+          margin: EdgeInsets.all(context.w * 0.06),
+          child: SafeArea(
+            child: Column(
+              children: [
+                SelectAvatarSourceButton(
+                  label: 'Select from photo library',
+                  icon: Icons.photo_album_outlined,
+                  onSelect: (file) {},
+                ),
+                SelectAvatarSourceButton(
+                  label: 'Take photo',
+                  icon: Icons.camera_alt_outlined,
+                  fromGallery: false,
+                  onSelect: (file) {},
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
