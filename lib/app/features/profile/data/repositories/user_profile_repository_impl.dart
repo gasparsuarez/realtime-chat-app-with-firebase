@@ -12,7 +12,7 @@ class UserProfileRepositoryImpl implements UserProfileRepository {
     try {
       await _datasource.updateProfile(model);
       return Either.right('Profile has been updated');
-    } on Exception catch (e) {
+    } catch (_) {
       return Either.left(Failure.unknown(message: 'Error has been occurred!'));
     }
   }
