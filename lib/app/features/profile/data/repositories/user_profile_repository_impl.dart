@@ -1,6 +1,6 @@
 import 'package:firebase_realtime_chat_app/app/core/either/my_either.dart';
+import 'package:firebase_realtime_chat_app/app/core/network/exception_handler.dart';
 import 'package:firebase_realtime_chat_app/app/core/network/failures/failure.dart';
-import 'package:firebase_realtime_chat_app/app/features/auth/domain/entities/user_entity.dart';
 import 'package:firebase_realtime_chat_app/app/features/profile/profile.dart';
 
 class UserProfileRepositoryImpl implements UserProfileRepository {
@@ -9,7 +9,12 @@ class UserProfileRepositoryImpl implements UserProfileRepository {
   UserProfileRepositoryImpl(this._datasource);
 
   @override
-  Future<Either<Failure, UserEntity>> updateProfile(UpdateProfileModel model) {
-    throw UnimplementedError();
+  Future<Either<Failure, String>> updateProfile(UpdateProfileModel model) async {
+    try {
+      await _datasource.updateProfile(model);
+      return Either.right('Profile has been updated');
+    } on Exception catch (e) {
+      return Either.left(ExceptionHandler.handleException(e));
+    }
   }
 }
