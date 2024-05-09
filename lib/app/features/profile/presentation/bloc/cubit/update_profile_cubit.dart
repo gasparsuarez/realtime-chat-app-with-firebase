@@ -18,12 +18,10 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
     switch (result) {
       case Right():
         emit(UpdateProfileState.updated(message: result.right));
-
         break;
       case Left():
         emit(UpdateProfileState.updateError(message: getFailureMessage(result.left)));
         break;
-      default:
     }
   }
 }
