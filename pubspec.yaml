@@ -8,7 +8,8 @@ environment:
 
 dependencies:
   bloc_test: ^9.1.7
-  cloud_firestore: ^4.17.2
+  cached_network_image: ^3.3.1
+  cloud_firestore: ^4.17.3
   firebase_auth: ^4.19.4
   firebase_core: ^2.30.1
   flutter:
@@ -17,6 +18,7 @@ dependencies:
   freezed_annotation: ^2.4.1
   get_it: ^7.7.0
   go_router: ^13.2.5
+  image_picker: ^1.1.1
   intl: ^0.19.0
   mockito: ^5.4.4
   toastification: ^1.2.1
@@ -31,6 +33,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
+  assets:
+    - assets/images/
   fonts:
     - family: Lato
       fonts: 

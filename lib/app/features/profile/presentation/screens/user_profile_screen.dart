@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:firebase_realtime_chat_app/app/core/core.dart';
 import 'package:firebase_realtime_chat_app/app/features/profile/presentation/bloc/cubit/update_profile_cubit.dart';
 import 'package:firebase_realtime_chat_app/app/features/profile/presentation/bloc/form_bloc/profile_form_bloc.dart';
@@ -78,9 +76,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                   switch (state) {
                                     case Updated(message: final message):
                                       AlertUtil(context).showAlert(
-                                          title: 'Success',
-                                          description: message,
-                                          type: ToastificationType.success);
+                                        title: 'Success',
+                                        description: message,
+                                        type: ToastificationType.success,
+                                      );
+
+                                      // Fetch user data from AuthCubit for update state
                                       context.read<AuthCubit>().fetchUserData();
                                     case UpdateError(message: final message):
                                       AlertUtil(context).showAlert(

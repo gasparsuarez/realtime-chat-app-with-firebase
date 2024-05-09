@@ -40,7 +40,7 @@ class ChatAppBar extends StatelessWidget {
                     width: context.w * 0.02,
                   ),
                   AuthStatusCircle(
-                    isOnline: user.isOnlineUser,
+                    isOnline: user.isUserOnline,
                   )
                 ],
               ),

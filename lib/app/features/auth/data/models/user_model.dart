@@ -7,6 +7,7 @@ class UserModel {
   final String? password;
   final String? uid;
   final int? isOnline;
+  final String? imageUrl;
 
   UserModel({
     this.uid,
@@ -15,6 +16,7 @@ class UserModel {
     required this.email,
     required this.lastName,
     this.password,
+    this.imageUrl,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
@@ -23,14 +25,17 @@ class UserModel {
         name: json['name'],
         email: json['email'],
         lastName: json['lastName'],
+        imageUrl: json['imageUrl'] ?? '',
       );
 
   static UserEntity modelToUser(UserModel model) => UserEntity(
-      uid: model.uid!,
-      name: model.name,
-      email: model.email,
-      lastName: model.lastName,
-      isOnline: model.isOnline!);
+        uid: model.uid!,
+        name: model.name,
+        email: model.email,
+        lastName: model.lastName,
+        isOnline: model.isOnline!,
+        imageUrl: model.imageUrl,
+      );
 
   Map<String, dynamic> toJson() => {
         'uid': uid,

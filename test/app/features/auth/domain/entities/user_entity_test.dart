@@ -14,6 +14,7 @@ void main() {
             email: 'email',
             lastName: 'lastName',
             isOnline: 1,
+            imageUrl: 'imageUrl',
           );
 
           expect(user, isA<UserEntity>());
@@ -21,11 +22,12 @@ void main() {
           expect(user.name, 'name');
           expect(user.email, 'email');
           expect(user.lastName, 'lastName');
+          expect(user.imageUrl, 'imageUrl');
           expect(user.isOnline, 1);
         },
       );
 
-      test('isOnlineUser should return true if user is online', () {
+      test('isUserOnline should return true if user is online', () {
         final user = UserEntity(
           uid: 'uid',
           name: 'name',
@@ -34,7 +36,7 @@ void main() {
           isOnline: 1,
         );
 
-        expect(user.isOnlineUser, true);
+        expect(user.isUserOnline, true);
       });
       test('fullName should return name with LastName and capitalize first letter', () {
         final user = UserEntity(

@@ -31,6 +31,7 @@ void main() {
             'name': 'name',
             'email': 'email',
             'lastName': 'lastName',
+            'imageUrl': 'imageUrl',
           };
 
           final model = UserModel.fromJson(mockJson);
@@ -40,6 +41,7 @@ void main() {
           expect(model.lastName, 'lastName');
           expect(model.email, 'email');
           expect(model.uid, 'uid');
+          expect(model.imageUrl, 'imageUrl');
           expect(model.isOnline, 0);
         },
       );

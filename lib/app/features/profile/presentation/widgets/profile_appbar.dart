@@ -30,8 +30,10 @@ class ProfileAppbar extends StatelessWidget {
                 border: Border.all(
                   color: kPrimaryColor,
                   width: context.w * 0.014,
-                  strokeAlign: BorderSide.strokeAlignOutside,
                 ),
+              ),
+              child: Image.asset(
+                'assets/images/user_avatar.png',
               ),
             ),
           ),
@@ -43,7 +45,7 @@ class ProfileAppbar extends StatelessWidget {
               height: context.w * 0.08,
               width: context.w * 0.08,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: kPrimaryColor,
                 shape: BoxShape.circle,
                 border: Border.all(
                   color: kPrimaryColor,
@@ -53,7 +55,8 @@ class ProfileAppbar extends StatelessWidget {
               ),
               child: Icon(
                 Icons.edit,
-                size: context.w * 0.048,
+                color: Colors.white,
+                size: context.w * 0.054,
               ),
             ),
           ),

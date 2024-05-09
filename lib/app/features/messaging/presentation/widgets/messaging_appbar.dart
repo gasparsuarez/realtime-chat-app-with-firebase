@@ -3,11 +3,12 @@ import 'package:firebase_realtime_chat_app/app/features/auth/presentation/bloc/a
 import 'package:firebase_realtime_chat_app/app/features/messaging/messaging.dart';
 import 'package:firebase_realtime_chat_app/app/features/profile/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class CustomAppbar extends StatelessWidget {
-  const CustomAppbar({super.key});
+class MessagingAppbar extends StatelessWidget {
+  const MessagingAppbar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +49,13 @@ class CustomAppbar extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              CustomText(
-                                text: user.fullName,
-                                fontSize: context.w * 0.048,
-                                fontWeight: FontWeight.bold,
+                              SizedBox(
+                                width: context.w * 0.6,
+                                child: CustomText(
+                                  text: user.fullName,
+                                  fontSize: context.w * 0.048,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ],
                           ),

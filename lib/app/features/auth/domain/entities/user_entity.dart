@@ -6,6 +6,7 @@ class UserEntity {
   final String email;
   final String lastName;
   final int isOnline;
+  final String? imageUrl;
 
   UserEntity({
     required this.uid,
@@ -13,9 +14,10 @@ class UserEntity {
     required this.email,
     required this.lastName,
     required this.isOnline,
+    this.imageUrl,
   });
 
-  bool get isOnlineUser => isOnline == 1 ? true : false;
+  bool get isUserOnline => isOnline == 1 ? true : false;
 
   String get fullName => '${name.capitalize} ${lastName.capitalize}';
 }
