@@ -60,6 +60,9 @@ class ServiceLocator {
     sl.registerLazySingleton<ListenChatMessagesUsecase>(() => ListenChatMessagesUsecase(sl()));
     sl.registerLazySingleton<SendMessageUsecase>(() => SendMessageUsecase(sl()));
 
+    //* Profile
+    sl.registerLazySingleton<UpdateProfileUsecase>(() => UpdateProfileUsecase(sl()));
+
     ///
     /// blocs
     ///
