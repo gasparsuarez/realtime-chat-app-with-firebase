@@ -75,36 +75,39 @@ void main() {
         verify(mockDocumentReference.update(model.toJson())).called(1);
       });
 
-      test('updateAvatar() should update user image and save data to firestore', () async {
-        //Arrange
-        when(mockFirebaseStorage.ref(any)).thenReturn(mockReference);
+      test(
+        'updateAvatar() should update user image and save data to firestore',
+        () async {
+          //Arrange
 
-        when(mockReference.child('avatars/null/null.')).thenReturn(mockReference);
+          /// References
+          when(mockFirebaseStorage.ref(any)).thenReturn(mockReference);
+          when(mockReference.child('avatars/null/null.')).thenReturn(mockReference);
 
-        when(mockReference.putFile(any)).thenAnswer((_) => mockUploadTask);
+          /// Upload Tasks
+          when(mockReference.putFile(any)).thenAnswer((_) => mockUploadTask);
+          when(mockUploadTask.whenComplete(any)).thenAnswer((_) async => mockTaskSnapshot);
+          when(mockTaskSnapshot.ref).thenReturn(mockReference);
 
-        when(mockUploadTask.snapshot).thenReturn(mockTaskSnapshot);
+          /// Uploaded file reference
+          when(mockReference.getDownloadURL()).thenAnswer((_) async => Future.value(''));
 
-        when(mockTaskSnapshot.ref).thenReturn(mockReference);
+          /// Update user Data
+          when(mockFirebaseFirestore.collection(any)).thenReturn(mockCollectionReference);
+          when(mockCollectionReference.doc(any)).thenReturn(mockDocumentReference);
+          when(mockDocumentReference.update(any)).thenAnswer((_) async => Future);
 
-        when(mockReference.getDownloadURL()).thenAnswer((_) => Future.value(''));
+          //Act
+          await datasource.updateAvatar(File(''));
 
-        when(mockFirebaseFirestore.collection(any)).thenReturn(mockCollectionReference);
-
-        when(mockCollectionReference.doc(any)).thenReturn(mockDocumentReference);
-
-        when(mockDocumentReference.update(any)).thenAnswer((_) async => Future);
-
-        //Act
-        await datasource.updateAvatar(File(''));
-
-        //Assert
-        verify(mockFirebaseStorage.ref(any)).called(1);
-        verify(mockReference.child('avatars/null/null.')).called(1);
-        verify(mockReference.putFile(any)).called(1);
-        verify(mockReference.getDownloadURL()).called(1);
-        verify(mockDocumentReference.update(any)).called(1);
-      });
+          //Assert
+          verify(mockFirebaseStorage.ref(any)).called(1);
+          verify(mockReference.child('avatars/null/null.')).called(1);
+          verify(mockReference.putFile(any)).called(1);
+          verify(mockReference.getDownloadURL()).called(1);
+          verify(mockDocumentReference.update(any)).called(1);
+        },
+      );
     },
   );
 }
