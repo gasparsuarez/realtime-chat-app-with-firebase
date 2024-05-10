@@ -101,6 +101,7 @@ void main() {
         //Assert
         verify(mockFirebaseStorage.ref(any)).called(1);
         verify(mockReference.child('avatars/null/null.')).called(1);
+        verify(mockReference.putFile(any)).called(1);
         verify(mockReference.getDownloadURL()).called(1);
         verify(mockDocumentReference.update(any)).called(1);
       });

@@ -20,8 +20,12 @@ class UserProfileRepositoryImpl implements UserProfileRepository {
   }
 
   @override
-  Future<Either<Failure, String>> updateAvatar(File file) {
-    // TODO: implement updateAvatar
-    throw UnimplementedError();
+  Future<Either<Failure, String>> updateAvatar(File file) async {
+    try {
+      await _datasource.updateAvatar(file);
+      return Either.right('Avatar is updated!');
+    } catch (e) {
+      return Either.left(Failure.unknown(message: 'Error has been occurred!'));
+    }
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_realtime_chat_app/app/core/core.dart';
 import 'package:firebase_realtime_chat_app/app/features/profile/profile.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -49,6 +51,34 @@ void main() {
 
         //Act
         final result = await repository.updateProfile(model);
+
+        //Assert
+        final value = result.whenOrNull(left: (failure) => failure);
+        expect(value, isA<Failure>());
+        expect(value, Failure.unknown(message: 'Error has been occurred!'));
+      });
+
+      test('updateAvatar() should return success string', () async {
+        //Arrange
+        when(mockProfileFirebaseDatasource.updateAvatar(any)).thenAnswer(
+          (_) => Future.value(),
+        );
+        //Act
+        final result = await repository.updateAvatar(File(''));
+
+        //Assert
+        final value = result.whenOrNull(right: (success) => success);
+        expect(value, isA<String>());
+        expect(value, 'Avatar is updated!');
+      });
+
+      test('updateAvatar() should return failure when throws exception', () async {
+        //Arrange
+        when(mockProfileFirebaseDatasource.updateAvatar(any)).thenThrow(
+          Exception('error has been occurred!'),
+        );
+        //Act
+        final result = await repository.updateAvatar(File(''));
 
         //Assert
         final value = result.whenOrNull(left: (failure) => failure);
