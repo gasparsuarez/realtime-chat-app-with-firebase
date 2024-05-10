@@ -100,10 +100,6 @@ class _UserTile extends StatelessWidget {
             )
           ],
         ),
-        subtitle: CustomText(
-          text: user.email,
-          textColor: kPrimaryColor,
-        ),
         leading: UserAvatarCircle(
           size: 0.10,
           user: user,

@@ -1,4 +1,4 @@
-# (In Progress) Realtime Chat App using Firebase
+# Realtime Chat App using Firebase
 
 I am building chat app using firebase, clean architecture with vertical slicing and others technologies. I also plan to implement unit tests with mockito and other procedures when i finish each features.
 
@@ -38,5 +38,5 @@ flutter run test --coverage
 
 - Authentication with tests
 - Messaging with tests
-- ⏳ User Profile 
+- User Profile with tests
 
