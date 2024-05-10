@@ -64,6 +64,7 @@ class ServiceLocator {
 
     //* Profile
     sl.registerLazySingleton<UpdateProfileUsecase>(() => UpdateProfileUsecase(sl()));
+    sl.registerLazySingleton<UpdateAvatarUsecase>(() => UpdateAvatarUsecase(sl()));
 
     ///
     /// blocs

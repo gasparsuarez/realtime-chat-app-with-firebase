@@ -11,7 +11,7 @@ class ImagePickerUtil {
     try {
       final selectedFile = await ImagePicker().pickImage(
         source: source,
-        imageQuality: 60,
+        imageQuality: 40,
       );
 
       if (selectedFile == null) return null;

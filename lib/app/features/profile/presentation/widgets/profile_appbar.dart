@@ -1,90 +1,168 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_realtime_chat_app/app/core/core.dart';
+import 'package:firebase_realtime_chat_app/app/features/auth/presentation/bloc/auth_cubit/auth_cubit.dart';
+import 'package:firebase_realtime_chat_app/app/features/profile/presentation/bloc/update_avatar/update_avatar_cubit.dart';
 import 'package:firebase_realtime_chat_app/app/features/profile/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:toastification/toastification.dart';
 
 class ProfileAppbar extends StatelessWidget {
   const ProfileAppbar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: context.h * 0.36,
-      child: Stack(
-        children: [
-          ClipPath(
-            clipper: AppbarClipper(),
-            child: Container(
-              height: context.h * 0.24,
-              width: context.w,
-              color: kPrimaryColor,
-            ),
-          ),
-
-          ///
-          /// User Avatar
-          ///
-          SafeArea(
-            child: Container(
-              margin: EdgeInsets.only(top: context.h * 0.02),
-              height: context.w * 0.36,
-              width: context.w,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: kPrimaryColor,
-                  width: context.w * 0.014,
-                ),
-              ),
-              child: Image.asset(
-                'assets/images/user_avatar.png',
-              ),
-            ),
-          ),
-
-          ///
-          /// Edit button
-          ///
-          Positioned(
-            top: context.h * 0.2,
-            left: context.w * 0.56,
-            child: Container(
-              margin: EdgeInsets.only(top: context.h * 0.02),
-              height: context.w * 0.08,
-              width: context.w * 0.08,
-              decoration: BoxDecoration(
+    return BlocProvider(
+      create: (_) => UpdateAvatarCubit(sl()),
+      child: SizedBox(
+        height: context.h * 0.36,
+        child: Stack(
+          children: [
+            ClipPath(
+              clipper: AppbarClipper(),
+              child: Container(
+                height: context.h * 0.24,
+                width: context.w,
                 color: kPrimaryColor,
-                shape: BoxShape.circle,
-                border: Border.all(
+              ),
+            ),
+
+            ///
+            /// User Avatar
+            ///
+            SafeArea(
+              child: BlocBuilder<AuthCubit, AuthState>(
+                builder: (context, state) {
+                  if (state.user != null) {
+                    final user = state.user!;
+                    return Center(
+                      child: Container(
+                        margin: EdgeInsets.only(
+                          top: context.h * 0.02,
+                        ),
+                        width: context.w * 0.4,
+                        height: context.w * 0.32,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                              color: kBlackColor,
+                              strokeAlign: BorderSide.strokeAlignOutside,
+                              width: context.w * 0.008),
+                        ),
+                        child: user.imageUrl!.isNotEmpty
+                            ? CachedNetworkImage(
+                                imageUrl: user.imageUrl!,
+                                progressIndicatorBuilder: (context, url, progress) {
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      value: progress.progress,
+                                    ),
+                                  );
+                                },
+                                imageBuilder: (context, imageProvider) {
+                                  return Container(
+                                    width: 80.0,
+                                    height: 80.0,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                fit: BoxFit.cover,
+                              )
+                            : Image.asset(
+                                'assets/images/user_avatar.png',
+                              ),
+                      ),
+                    );
+                  }
+                  return const SizedBox.shrink();
+                },
+              ),
+            ),
+
+            ///
+            /// Edit button
+            ///
+            Positioned(
+              top: context.h * 0.22,
+              left: context.w * 0.58,
+              child: Container(
+                margin: EdgeInsets.only(top: context.h * 0.02),
+                height: context.w * 0.06,
+                width: context.w * 0.06,
+                decoration: BoxDecoration(
                   color: kPrimaryColor,
-                  width: context.w * 0.014,
-                  strokeAlign: BorderSide.strokeAlignOutside,
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: kPrimaryColor,
+                    width: context.w * 0.014,
+                    strokeAlign: BorderSide.strokeAlignOutside,
+                  ),
                 ),
-              ),
-              child: GestureDetector(
-                onTap: () => _showChangeAvatarOptions(context),
-                child: Icon(
-                  Icons.edit,
-                  color: Colors.white,
-                  size: context.w * 0.054,
+                child: BlocConsumer<UpdateAvatarCubit, UpdateAvatarState>(
+                  listener: (context, state) {
+                    switch (state) {
+                      case UpdatedAvatar(message: final message):
+                        AlertUtil(context).showAlert(
+                          title: 'Success',
+                          description: message!,
+                        );
+
+                        /// Fetch data
+                        context.read<AuthCubit>().fetchUserData();
+                        break;
+                      case UpdateAvatarError(message: final message):
+                        AlertUtil(context).showAlert(
+                          title: 'Error',
+                          description: message!,
+                          type: ToastificationType.error,
+                        );
+                        break;
+                    }
+                  },
+                  builder: (context, state) {
+                    return GestureDetector(
+                      onTap: () => _changeAvatarSourceDialog(
+                        context,
+                        onSelected: (file) {
+                          if (file == null) return;
+
+                          context.read<UpdateAvatarCubit>().updateAvatar(file);
+                        },
+                      ),
+                      child: Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                        size: context.w * 0.054,
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
-          ),
-          SafeArea(
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: IconButton(
-                onPressed: () => context.pop(),
-                icon: const Icon(
-                  Icons.arrow_back,
-                  color: Colors.white,
+            SafeArea(
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: IconButton(
+                  onPressed: () => context.pop(),
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -92,7 +170,10 @@ class ProfileAppbar extends StatelessWidget {
   ///
   /// Open modal for select Camera or photo library
   ///
-  _showChangeAvatarOptions(BuildContext context) {
+  _changeAvatarSourceDialog(
+    BuildContext context, {
+    required Function(File? file) onSelected,
+  }) {
     return showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -107,15 +188,18 @@ class ProfileAppbar extends StatelessWidget {
                   label: 'Select from photo library',
                   icon: Icons.photo_album_outlined,
                   onSelect: (file) {
-                    final fileExtension = file?.path.split('/').last.split('.').last;
-                    print(fileExtension);
+                    onSelected(file);
+                    context.pop();
                   },
                 ),
                 SelectAvatarSourceButton(
                   label: 'Take photo',
                   icon: Icons.camera_alt_outlined,
                   fromGallery: false,
-                  onSelect: (file) {},
+                  onSelect: (file) {
+                    onSelected(file);
+                    context.pop();
+                  },
                 ),
               ],
             ),

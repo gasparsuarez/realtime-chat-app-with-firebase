@@ -2,7 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:firebase_realtime_chat_app/app/core/core.dart';
 import 'package:firebase_realtime_chat_app/app/features/profile/data/models/models.dart';
 import 'package:firebase_realtime_chat_app/app/features/profile/domain/usecases/usecases.dart';
-import 'package:firebase_realtime_chat_app/app/features/profile/presentation/bloc/cubit/update_profile_cubit.dart';
+import 'package:firebase_realtime_chat_app/app/features/profile/presentation/bloc/update_profile/update_profile_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';

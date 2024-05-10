@@ -1,5 +1,5 @@
 import 'package:firebase_realtime_chat_app/app/core/core.dart';
-import 'package:firebase_realtime_chat_app/app/features/profile/presentation/bloc/cubit/update_profile_cubit.dart';
+import 'package:firebase_realtime_chat_app/app/features/profile/presentation/bloc/update_profile/update_profile_cubit.dart';
 import 'package:firebase_realtime_chat_app/app/features/profile/presentation/bloc/form_bloc/profile_form_bloc.dart';
 import 'package:firebase_realtime_chat_app/app/features/profile/presentation/presentation.dart';
 import 'package:flutter/material.dart';
