@@ -49,9 +49,10 @@ class ProfileAppbar extends StatelessWidget {
                           color: Colors.white,
                           shape: BoxShape.circle,
                           border: Border.all(
-                              color: kBlackColor,
-                              strokeAlign: BorderSide.strokeAlignOutside,
-                              width: context.w * 0.008),
+                            color: kBlackColor,
+                            strokeAlign: BorderSide.strokeAlignOutside,
+                            width: context.w * 0.008,
+                          ),
                         ),
                         child: user.imageUrl!.isNotEmpty
                             ? CachedNetworkImage(
@@ -111,6 +112,13 @@ class ProfileAppbar extends StatelessWidget {
                 child: BlocConsumer<UpdateAvatarCubit, UpdateAvatarState>(
                   listener: (context, state) {
                     switch (state) {
+                      case UpdatingAvatar():
+                        AlertUtil(context).showAlert(
+                          title: 'Loading',
+                          description: 'please wait one moment..',
+                          type: ToastificationType.info,
+                        );
+                        break;
                       case UpdatedAvatar(message: final message):
                         AlertUtil(context).showAlert(
                           title: 'Success',

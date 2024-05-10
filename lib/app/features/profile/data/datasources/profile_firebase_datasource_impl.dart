@@ -34,9 +34,9 @@ class ProfileFirebaseDatasourceImpl implements ProfileFirebaseDatasource {
     final avatarRef = storageRef.child('avatars/$currentUserId/$currentUserId.$fileExtension');
 
     // Save Image
-    final uploadTask = avatarRef.putFile(file);
+    final uploadTask = await avatarRef.putFile(file);
 
-    final downloadUrl = await uploadTask.snapshot.ref.getDownloadURL();
+    final downloadUrl = await uploadTask.ref.getDownloadURL();
 
     // Collection of user data
     final userRef = _firestore.collection('users').doc(currentUserId);

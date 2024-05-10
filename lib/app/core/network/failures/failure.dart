@@ -16,6 +16,8 @@ String getFailureMessage(Failure failure) {
       return message;
     case Auth(code: final code):
       return parseAuthCodeToMessage(code);
+    case Unknown(message: final message):
+      return message;
     default:
       return Unknown().message;
   }

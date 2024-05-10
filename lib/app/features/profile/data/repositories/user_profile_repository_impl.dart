@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_realtime_chat_app/app/core/either/my_either.dart';
@@ -25,6 +26,7 @@ class UserProfileRepositoryImpl implements UserProfileRepository {
       await _datasource.updateAvatar(file);
       return Either.right('Avatar is updated!');
     } catch (e) {
+      log(e.toString());
       return Either.left(Failure.unknown(message: 'Error has been occurred!'));
     }
   }
