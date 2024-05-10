@@ -98,7 +98,7 @@ class ProfileAppbar extends StatelessWidget {
       builder: (context) {
         return Container(
           width: context.w,
-          height: context.h * 0.2,
+          height: context.h * 0.16,
           margin: EdgeInsets.all(context.w * 0.06),
           child: SafeArea(
             child: Column(
@@ -106,7 +106,10 @@ class ProfileAppbar extends StatelessWidget {
                 SelectAvatarSourceButton(
                   label: 'Select from photo library',
                   icon: Icons.photo_album_outlined,
-                  onSelect: (file) {},
+                  onSelect: (file) {
+                    final fileExtension = file?.path.split('/').last.split('.').last;
+                    print(fileExtension);
+                  },
                 ),
                 SelectAvatarSourceButton(
                   label: 'Take photo',

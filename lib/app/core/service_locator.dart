@@ -6,6 +6,7 @@ import 'package:firebase_realtime_chat_app/app/features/auth/domain/domain.dart'
 import 'package:firebase_realtime_chat_app/app/features/auth/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:firebase_realtime_chat_app/app/features/messaging/messaging.dart';
 import 'package:firebase_realtime_chat_app/app/features/profile/profile.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 
 final sl = GetIt.instance;
@@ -18,6 +19,7 @@ class ServiceLocator {
     ///
     sl.registerSingleton<FirebaseAuth>(FirebaseAuth.instance);
     sl.registerSingleton<FirebaseFirestore>(FirebaseFirestore.instance);
+    sl.registerSingleton<FirebaseStorage>(FirebaseStorage.instance);
 
     ///
     /// Repositories
@@ -43,7 +45,7 @@ class ServiceLocator {
 
     //* Profile
     sl.registerLazySingleton<ProfileFirebaseDatasource>(
-        () => ProfileFirebaseDatasourceImpl(sl(), sl()));
+        () => ProfileFirebaseDatasourceImpl(sl(), sl(), sl()));
 
     ///
     /// Use cases

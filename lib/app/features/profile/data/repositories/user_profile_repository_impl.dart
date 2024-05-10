@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_realtime_chat_app/app/core/either/my_either.dart';
 import 'package:firebase_realtime_chat_app/app/core/network/failures/failure.dart';
 import 'package:firebase_realtime_chat_app/app/features/profile/profile.dart';
@@ -15,5 +17,11 @@ class UserProfileRepositoryImpl implements UserProfileRepository {
     } catch (_) {
       return Either.left(Failure.unknown(message: 'Error has been occurred!'));
     }
+  }
+
+  @override
+  Future<Either<Failure, String>> updateAvatar(File file) {
+    // TODO: implement updateAvatar
+    throw UnimplementedError();
   }
 }

@@ -9,7 +9,10 @@ class ImagePickerUtil {
   /// Pick image from gallery or camera
   static Future<File?> pick(ImageSource source) async {
     try {
-      final selectedFile = await ImagePicker().pickImage(source: source);
+      final selectedFile = await ImagePicker().pickImage(
+        source: source,
+        imageQuality: 60,
+      );
 
       if (selectedFile == null) return null;
 
