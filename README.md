@@ -40,3 +40,16 @@ flutter run test --coverage
 - Messaging with tests
 - User Profile with tests
 
+## Screenshots
+
+<row>
+<img src="chatapp-images/Simulator Screenshot - iPhone 15 Plus - 2024-05-11 at 11.30.05.png" width="250"> 
+<img src="chatapp-images/Simulator Screenshot - iPhone 15 Plus - 2024-05-11 at 11.32.11.png" width="250"> 
+</row>
+
+<row>
+<img src="chatapp-images/Screenshot 2024-05-11 at 11.31.12 AM.png" width="450"> 
+<img src="chatapp-images/Screenshot 2024-05-11 at 11.31.54 AM.png" width="450"> 
+</row>
+
+
